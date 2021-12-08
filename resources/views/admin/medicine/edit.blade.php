@@ -10,8 +10,13 @@
         <div id="page-wrapper" class="gray-bg">
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="alert alert-danger">
-                    aslkdaslkj asldkj
+                <div class="alert alert-success alert-dismissible fade show">
+                    @if(Session::has('update'))
+                        {{ Session::get('update') }}
+                    @endif
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

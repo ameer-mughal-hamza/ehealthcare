@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Medicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use MongoDB\Driver\Session;
 
 class MedicineController extends Controller
 {
@@ -63,9 +64,11 @@ class MedicineController extends Controller
         $medicine->description = $request->input('description');
         $medicine->save();
 
+        session()->flash('update', 'Medicine updated successfully.');
         return view('admin/medicine/edit')->with([
             'title' => '',
-            'medicine' => $medicine
+            'medicine' => $medicine,
+            'message' => 'Medicine updated successfully.'
         ]);
     }
 
