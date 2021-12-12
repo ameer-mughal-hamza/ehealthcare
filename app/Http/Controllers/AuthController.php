@@ -59,17 +59,9 @@ class AuthController extends Controller
     {
         $fields = ['first_name', 'last_name', 'email', 'password', 'role', 'date_of_birth'];
 
-        $exist = 1;
-        while ($exist > 0) {
-            $random_number = rand(10000000, 99999999);
-            $patient = Patient::where('user_id', $random_number)->first();
-            if (!$patient) {
-                $exist = 0;
-            }
-        }
 
         $patient = new Patient();
-        $patient->mrn = $random_number;
+        $patient->mrn = getRandomMRN();
 
         $request->validate([
             'first_name' => 'required|max:26',
@@ -95,7 +87,6 @@ class AuthController extends Controller
             }
         }
 
-//        dd($user);
         $user->save();
         $user->patient()->save($patient);
 
