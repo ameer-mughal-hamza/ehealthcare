@@ -1,8 +1,6 @@
 @extends('master-landing')
 
 @section('title', "E Health Care - Contact Us")
-
-@section('css')
 @endsection
 
 @section('content')

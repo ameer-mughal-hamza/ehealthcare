@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 @endsection
 
-@section('content')
 @section('nav')
     @include('landing-page.nav-no-scroll', ['cssClass' => 'navbar-scroll'])
 @endsection
+
+@section('content')
 <div class="container" style="margin-top: 75px;">
     <div id="app" class="row">
         <post-detail-component></post-detail-component>

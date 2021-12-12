@@ -2,9 +2,6 @@
 
 @section('title', "E Health Care - Login")
 
-@section('css')
-@endsection
-
 @section('content')
 @section('nav')
     @include('landing-page/nav-no-scroll', ['cssClass' => 'navbar-scroll'])

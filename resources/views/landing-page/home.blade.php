@@ -2,13 +2,11 @@
 
 @section('title', "E Health Care - Home")
 
-@section('css')
+@section('nav')
+    @include('landing-page/nav')
 @endsection
 
 @section('content')
-    @section('nav')
-        @include('landing-page/nav')
-    @endsection
     <div id="inSlider" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#inSlider" data-slide-to="0" class="active"></li>
@@ -303,8 +301,4 @@
         </div>
     </section>
     @include('landing-page/footer')
-@endsection
-
-@section('js')
-
 @endsection

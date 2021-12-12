@@ -82,6 +82,11 @@ Route::group(['prefix' => '/'], function () {
     Route::post('logout', "AuthController@logout");
     Route::get('register', "AuthController@showRegister");
     Route::post('register', "AuthController@register");
+    Route::get('/verify-account', function (){
+        return view('verify-email')->with([
+            'title' => 'Verify Account'
+        ]);
+    })->name('verify_account_page');
     Route::get('find-a-doctor', function () {
         return view('landing-page/doctor-page')->with(['title' => 'Search Doctor']);
     });
