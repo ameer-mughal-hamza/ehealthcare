@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 // Routes for ADMIN
 Route::group(['prefix' => 'admin'], function () {
     //All the routes that belongs to the group goes here
+    Route::get('/', function() { return view("admin/home"); });
+
     Route::get('add-patient', function () {
         return view('admin/patient/add-patient');
     });
@@ -32,6 +34,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('add/medicine', "MedicineController@add");
     Route::get('edit/{slug}/medicine', "MedicineController@edit");
     Route::post('update/{slug}/medicine', "MedicineController@update")->name('update_medicine');
+
+    Route::get('view/messages/all', "MessageController@index")->name('view_all_messages');
+    Route::get('view/message/{id}', "MessageController@show")->name('view_message');
+    Route::get('delete/message/{id}', "MessageController@delete")->name('delete_message');
+
+    Route::get('posts', "PostController@index")->name('view_all_posts');
+    Route::get('/post/{id}', "PostController@show")->name('view_post');
+    Route::get('/post/{id}/delete', "MessageController@delete")->name('delete_post');
 
     Route::get('view/doctor', function () {
         return view('admin/doctors/index');
@@ -123,9 +133,9 @@ Route::get('/reset-password', function () {
     return view('landing-page/contact')->with(['title' => 'Reset password']);
 });
 
-Route::middleware('checkUserRole')->get('/admin', function () {
-    return view('admin/home');
-});
+// Route::middleware('checkUserRole')->get('/admin', function () {
+//     return view('admin/home');
+// });
 
 Route::middleware('checkUserRole')->get('/admin/doctors', function () {
     return view('admin/doctors/index');
@@ -133,30 +143,6 @@ Route::middleware('checkUserRole')->get('/admin/doctors', function () {
 
 Route::middleware('checkUserRole')->get('/admin/doctors/detail', function () {
     return view('admin/doctors/detail');
-});
-
-Route::middleware('checkUserRole')->get('/admin/doctors/add', function () {
-    return view('admin/doctors/add');
-});
-
-Route::middleware('checkUserRole')->get('/admin/patients/view-all', function () {
-    return view('admin/patients');
-});
-
-Route::middleware('checkUserRole')->get('/admin/patients/add', function () {
-    return view('admin/patients');
-});
-
-Route::middleware('checkUserRole')->get('/admin/blogs', function () {
-    return view('admin/blogs/index');
-});
-
-Route::middleware('checkUserRole')->get('/admin/blogs/{id}', function () {
-    return view('admin/blogs/details');
-});
-
-Route::get('/doctors/prescription', function () {
-    return view('doctors/perscription');
 });
 
 Route::get('auth/google', 'SocialController@redirectToGoogle');

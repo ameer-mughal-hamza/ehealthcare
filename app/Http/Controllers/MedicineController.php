@@ -12,7 +12,7 @@ class MedicineController extends Controller
     public function index()
     {
         $medicines = Medicine::all();
-//        dd($medicines);
+       dd($medicines);
         $display = [
             'title' => 'Add Medicine',
             'medicines' => $medicines

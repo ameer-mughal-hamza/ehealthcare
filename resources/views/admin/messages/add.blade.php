@@ -4,43 +4,36 @@
     <link href="{{ asset('css/plugins/footable/footable.core.css') }}" rel="stylesheet">
 @endsection
 
-@section('content')\
+@section('content')
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="alert alert-success alert-dismissible fade show">
-                    @if(Session::has('update'))
-                        {{ Session::get('update') }}
-                    @endif
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h3>
-                                    Edit Medicine - <strong>{{ $medicine->name }}</strong>
+                                    Add Medicine
                                 </h3>
                             </div>
                             <div class="ibox-content">
-                                <form method="post" action="{{ route('update_medicine', $medicine->slug) }}">
-                                    @csrf
+                                <form method="get">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" name="name" class="form-control"
-                                                   value="{{ old('name', $medicine->name) }}">
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Description</label>
-                                        <div class="col-sm-12">
-                                            <textarea type="text" name="description" rows="10"
-                                                      class="form-control">{{ old('description', $medicine->description) }}</textarea>
+                                        <div class="col-sm-3">
+                                            <textarea
+                                                cols="30"
+                                                rows="10"
+                                                placeholder="Enter medicine description"
+                                                class="form-control"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
