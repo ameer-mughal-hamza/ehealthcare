@@ -46,9 +46,17 @@
             {{--                    </li>--}}
             {{--                </ul>--}}
             {{--            </li>--}}
-            <li class="{{ (request()->is('admin/blogs/*')) ? 'active' : '' }}">
-                <a href="{{ url('/admin/blogs') }}"><i class="fa fa-newspaper-o"></i> <span
-                        class="nav-label">Blogs</span></a>
+            <li class="{{ (request()->is('admin/posts/*') || request()->is('admin/posts')) ? 'active' : '' }}">
+                <a href="{{ route('view_all_posts') }}"><i class="fa fa-newspaper-o"></i>
+                <span class="nav-label">Posts</span>
+            </a>
+            </li>
+            <li class="{{ (request()->is('admin/messages/*')) ? 'active' : '' }}">
+                <a href="{{ url('/admin/view/messages/all') }}">
+                    <i class="fa fa-newspaper-o"></i>
+                    <span class="nav-label">Messages</span>
+                    <span class="float-right label label-primary">{{ getTotalMessages() }}</span>
+                </a>
             </li>
             <li class="{{ (request()->is('admin/view/medicine/*')) ? 'active' : '' }}">
                 <a href="{{ url('/admin/view/medicine/all') }}">
