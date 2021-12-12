@@ -4,7 +4,7 @@
     <link href="{{ asset('css/plugins/footable/footable.core.css') }}" rel="stylesheet">
 @endsection
 
-@section('content')\
+@section('content')
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
