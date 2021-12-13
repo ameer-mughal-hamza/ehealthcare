@@ -17,6 +17,13 @@
                 <a href="{{ url('/home') }}">Go to home</a>
             </div>
         @endif
+        @if(Session::has('patient_dashboard_restrict'))
+            <div class="alert alert-danger alert-dismissible fade show">
+                <h4 class="alert-heading">!! Alert !!</h4>
+                <p>{{ Session::get('patient_dashboard_restrict') }}.</p>
+                <a href="{{ url('/home') }}">Go to home</a>
+            </div>
+        @endif
         <h1>Welcome to E Health Care</h1>
         <h3>Login</h3>
         <form method="post" class="m-t" role="form" action="{{ url('/login') }}">
