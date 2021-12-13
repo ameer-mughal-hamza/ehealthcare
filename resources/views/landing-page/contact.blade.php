@@ -9,7 +9,7 @@
 @endsection
 <div class="middle-box text-center animated fadeInDown mt-5">
     <h3>Contact Us</h3>
-    <form method="post" class="m-t" role="form" action="index.html">
+    <form method="post" class="m-t" role="form" action="{{ url('home') }}">
         @csrf
         <div class="form-group">
             <input name="name" value="{{ old('name', Auth::check() ? auth()->user()->name : '') }}" type="text" class="form-control" placeholder="Name" required="">

@@ -12,7 +12,7 @@
         Email sent!
     </div>
     <h3>Forget Password</h3>
-    <form class="m-t" role="form" action="index.html">
+    <form class="m-t" role="form" action="{{ url('home') }}">
         <div class="form-group">
             <input type="email" class="form-control" placeholder="Email" required="">
         </div>

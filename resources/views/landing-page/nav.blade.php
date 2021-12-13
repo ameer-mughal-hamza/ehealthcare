@@ -4,7 +4,7 @@
         role="navigation"
     >
         <div class="container">
-            <a class="navbar-brand" href="index.html">E Health Care</a>
+            <a class="navbar-brand" href="{{ url('home') }}">E Health Care</a>
             <div class="navbar-header page-scroll">
                 <button
                     class="navbar-toggler"

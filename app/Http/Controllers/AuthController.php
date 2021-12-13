@@ -13,9 +13,6 @@ class AuthController extends Controller
 {
     public function index()
     {
-//        if (\auth()->check()) {
-//            return redirect()->route('home');
-//        }
         $display = [
             'title' => getTitle('Login')
         ];
@@ -90,8 +87,8 @@ class AuthController extends Controller
         $user->save();
         $user->patient()->save($patient);
 
-        Auth::loginUsingId($user->id);
+//        Auth::loginUsingId($user->id);
 
-        return redirect('/home');
+        return redirect()->route('verify_account_page');
     }
 }

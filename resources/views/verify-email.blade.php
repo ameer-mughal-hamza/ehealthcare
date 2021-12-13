@@ -1,6 +1,6 @@
 @extends('master-landing')
 @section('content')
-    <div class="middle-box text-center animated fadeInDown mt-5">
+    <div class="container text-center animated fadeInDown mt-5">
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-success" role="alert">
@@ -12,6 +12,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
