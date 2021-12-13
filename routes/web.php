@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 
 // Routes for ADMIN
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], function () {
     //All the routes that belongs to the group goes here
-    Route::get('/', function() { return view("admin/home"); });
+    Route::get('/', function () {
+        return view("admin/home");
+    });
 
     Route::get('add-patient', function () {
         return view('admin/patient/add-patient');
@@ -58,7 +60,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 // Routes for Doctors
-Route::group(['prefix' => 'doctor', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'email_verified']], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', function () {
     });
@@ -66,19 +68,35 @@ Route::group(['prefix' => 'doctor', 'middleware' => 'auth'], function () {
 
 
 // Routes for Patients
-Route::group(['prefix' => 'patient', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'patient', 'middleware' => ['auth', 'email_verified']], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', function () {
     });
 });
+//
 
 Route::group(['prefix' => '/'], function () {
-    //All the routes that belongs to the landing page goes here
     Route::get('home', "HomeController@index")->name("home");
-    Route::get('doctor-detail/{id}', "DoctorController@index")->name("home");
-    Route::get('contact', "ContactController@index");
-    Route::get('login', "AuthController@index");
+    Route::get('login', "AuthController@index")->name('login');
     Route::post('login', "AuthController@login")->name('login');
+
+    Route::get('/verify-account-success', function () {
+        return view('verify-email')->with([
+            'title' => 'Verify Account'
+        ]);
+    })->name('verify_account_success');
+
+    Route::get('/verify-account', function () {
+        return view('verify-')->with([
+            'title' => 'Verify Account'
+        ]);
+    })->name('verify_account_message');
+});
+
+Route::group(['prefix' => '/', 'middleware' => ['auth', 'email_verified']], function () {
+    //All the routes that belongs to the landing page goes here
+    Route::get('doctor-detail/{id}', "DoctorController@index");
+    Route::get('contact', "ContactController@index");
     Route::post('logout', "AuthController@logout");
     Route::get('register', "AuthController@showRegister");
     Route::post('register', "AuthController@register");

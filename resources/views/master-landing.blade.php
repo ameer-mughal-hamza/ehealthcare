@@ -15,7 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js" defer></script>
     <link
         rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
@@ -40,7 +40,7 @@
             font-family: 'Open Sans', sans-serif;
         }
     </style>
-    @yield('landing-css')
+    @yield("landing-css")
 </head>
 <body id="page-top" class="landing-page no-skin-config">
 @yield('nav')
@@ -53,7 +53,7 @@
 <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- Custom and plugin javascript -->
 <script src="{{ asset('js/inspinia.js') }}"></script>
-<script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+{{--<script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>--}}
 <script src="{{ asset('js/plugins/wow/wow.min.js') }}"></script>
 
 <script>

@@ -21,7 +21,6 @@ class SocialController extends Controller
     public function handleGoogleCallback()
     {
         try {
-
             $user = Socialite::driver('google')->user();
             $finduser = User::where('email', $user->email)->first();
             if ($finduser) {
@@ -45,6 +44,7 @@ class SocialController extends Controller
                 $newUser->email = $user->email;
                 $newUser->role = 3;
                 $newUser->password = Hash::make(encrypt(rand(10000000, 99999999)));
+                $newUser->is_verified = true;
                 $newUser->save();
                 $newUser->patient()->save($patient);
 
@@ -81,6 +81,7 @@ class SocialController extends Controller
                 $newUser->email = $user->email;
                 $newUser->role = 3;
                 $newUser->password = Hash::make(encrypt(rand(10000000, 99999999)));
+                $newUser->is_verified = true;
                 $newUser->save();
                 $newUser->patient()->save($patient);
 

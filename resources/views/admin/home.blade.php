@@ -1,6 +1,5 @@
 @extends('master-admin')
 @section('title', 'E Health Care - Dashboard')
-@section('css')
 @endsection
 
 @section('content')
