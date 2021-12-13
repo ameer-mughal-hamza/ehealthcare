@@ -14,10 +14,10 @@
                 <p>An email is already sent to your email: {{ Session::get('verify_account_email') }}.</p>
                 <hr>
                 <p class="mb-0">Please verify the email and login again.</p>
+                <a href="{{ url('/home') }}">Go to home</a>
             </div>
         @endif
         <h1>Welcome to E Health Care</h1>
-        <p>{{ auth()->user() }}</p>
         <h3>Login</h3>
         <form method="post" class="m-t" role="form" action="{{ url('/login') }}">
             @csrf

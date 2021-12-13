@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
+use App\Notifications\ConfirmVerificationNotfication;
+use App\Notifications\WelcomeEmailNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -40,7 +43,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('/login');
+        return redirect()->route('login');
     }
 
     public function showRegister()
@@ -55,7 +58,6 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $fields = ['first_name', 'last_name', 'email', 'password', 'role', 'date_of_birth'];
-
 
         $patient = new Patient();
         $patient->mrn = getRandomMRN();
@@ -84,11 +86,57 @@ class AuthController extends Controller
             }
         }
 
-        $user->save();
-        $user->patient()->save($patient);
+        if ($user->save()) {
+            $token = Crypt::encryptString($user->id);
+            $user->token = $token;
+            $user->save();
+            $user->patient()->save($patient);
+            $config = [
+                'url' => "account-verification/$token"
+            ];
+
+            $user->notify(new WelcomeEmailNotification($config));
+        }
 
 //        Auth::loginUsingId($user->id);
 
-        return redirect()->route('verify_account_page');
+        return redirect()->route('verify_account_message');
+    }
+
+    public function verify_account($token)
+    {
+//        $token = \Request::segment(2);
+        $decryptId = Crypt::decryptString($token);
+
+        $user = User::where([
+            'id' => $decryptId,
+            'is_verified' => 0,
+            'token' => $token
+        ])->first();
+
+        if ($user) {
+            $user->is_verified = 1;
+            $user->token = null;
+            $user->save();
+
+//            $html = '';
+//            $html .= "<div class='alert alert-info alert-dismissible fade show'><h4 class='alert-heading'>Congratulation!</h4>";
+//            $html .= "<p>Your account has been verified succesfully.</p><hr>";
+//            $html .= "<a href='{{ url('home') }}'>Go to Home</a>";
+
+            Auth::login($user);
+
+            // Send an confirmation email that your account is verified.
+            $display = [
+                'url' => url('/home')
+            ];
+            $user->notify(new ConfirmVerificationNotfication($display));
+
+            return view('verify-account-success')->with([
+                'title' => 'Account Verified'
+            ]);
+        }
+
+        return redirect()->route('login');
     }
 }

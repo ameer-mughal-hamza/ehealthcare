@@ -9,6 +9,7 @@ class EmailVerifiedMiddleware
 {
     public function handle($request, Closure $next)
     {
+        dd('asad');
         if (!auth()->user()->is_verified) {
             session()->flash('verify_account', 'Please verify your account.');
             session()->flash('verify_account_email', Auth::user()->email);

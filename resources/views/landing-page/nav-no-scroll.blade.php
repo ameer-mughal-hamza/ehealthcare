@@ -29,11 +29,8 @@
                             <a class="nav-link page-scroll" href="{{ url('/login') }}">Login</a>
                         </li>
                     @else
-                        <li style="margin-top: 17px;">
-                            <form action="{{ url('/logout') }}" method="post">
-                                @csrf
-                                <a class="nav-link page-scroll" href="{{ url('/logout') }}">Logout</a>
-                            </form>
+                        <li>
+                            <a href="{{ url('logout') }}" class="nav-link page-scroll">Logout</a>
                         </li>
                     @endif
                 </ul>

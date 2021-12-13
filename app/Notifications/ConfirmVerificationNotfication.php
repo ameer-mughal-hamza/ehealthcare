@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class WelcomeEmailNotification extends Notification
+class ConfirmVerificationNotfication extends Notification
 {
     use Queueable;
 
@@ -18,6 +18,12 @@ class WelcomeEmailNotification extends Notification
         $this->data = $display;
     }
 
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
     public function via($notifiable)
     {
         return ['mail'];
@@ -26,10 +32,10 @@ class WelcomeEmailNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Your account has been created successfully.')
-            ->line('Please use the button below to verify your account.')
-            ->action('Verify Account', $this->data['url'])
-            ->line('Thank you for using our application!');
+            ->subject('Email Verified')
+            ->line('Your email has been verified successfully.')
+            ->line('Thank you for using our application!')
+            ->action('Go to Home', url('/home'));
     }
 
     public function toArray($notifiable)

@@ -1,12 +1,12 @@
 @extends('master-landing')
 
 @section('title', "E Health Care - Contact Us")
-@endsection
 
-@section('content')
 @section('nav')
     @include('landing-page/nav-no-scroll', ['cssClass' => 'navbar-scroll'])
 @endsection
+
+@section('content')
 <div class="middle-box text-center animated fadeInDown mt-5">
     <h3>Contact Us</h3>
     <form method="post" class="m-t" role="form" action="{{ url('home') }}">
