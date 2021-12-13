@@ -2,6 +2,7 @@
 
 use App\Events\PostEvent;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -79,35 +80,41 @@ Route::group(['prefix' => '/'], function () {
     Route::get('home', "HomeController@index")->name("home");
     Route::get('login', "AuthController@index")->name('login');
     Route::post('login', "AuthController@login")->name('login');
+    Route::get('register', "AuthController@showRegister");
+    Route::post('register', "AuthController@register");
+    Route::get('logout', "AuthController@logout");
+    Route::get('contact', "ContactController@index");
+
+    Route::get('/account-verification/{token}', "AuthController@verify_account");
 
     Route::get('/verify-account-success', function () {
-        return view('verify-email')->with([
-            'title' => 'Verify Account'
+        return view('verify-account-success')->with([
+            'title' => 'Account Verified'
         ]);
     })->name('verify_account_success');
 
     Route::get('/verify-account', function () {
-        return view('verify-')->with([
+        return view('verify-email')->with([
             'title' => 'Verify Account'
         ]);
     })->name('verify_account_message');
+
 });
 
 Route::group(['prefix' => '/', 'middleware' => ['auth', 'email_verified']], function () {
     //All the routes that belongs to the landing page goes here
     Route::get('doctor-detail/{id}', "DoctorController@index");
-    Route::get('contact', "ContactController@index");
-    Route::post('logout', "AuthController@logout");
-    Route::get('register', "AuthController@showRegister");
-    Route::post('register', "AuthController@register");
+
+
     Route::get('find-a-doctor', function () {
         return view('landing-page/doctor-page')->with(['title' => 'Search Doctor']);
     });
 });
 
 
-Route::get('test-event', function () {
-    event(new PostEvent('This is a new message!', User::find(1)));
+Route::get('test-event/asasd', function () {
+    return \Request::segment(2);
+//    event(new PostEvent('This is a new message!', User::find(1)));
 });
 
 Route::get('/map', function () {
@@ -137,7 +144,6 @@ Route::get('/get-user', function () {
 //Route::get('/contact', "ContactController@index");
 //Route::get('/login', "AuthController@index");
 //Route::post('/login', "AuthController@login")->name('login');
-//Route::post('/logout', "AuthController@logout");
 //
 //Route::get('/find-a-doctor', function () {
 //    return view('landing-page/doctor-page')->with(['title' => 'Search Doctor']);
