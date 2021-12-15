@@ -1,9 +1,9 @@
 @extends('master-patient')
-@section('title', 'E Health Care - Dashboard')
+@section('title', $title)
 
 @section('content')
     <div id="wrapper">
-        @include('patient/nav')
+        @include('doctors/nav')
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -109,7 +109,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="login.html">
+                            <a href="{{ url('/logout') }}">
                                 <i class="fa fa-sign-out"></i> Log out
                             </a>
                         </li>
@@ -147,10 +147,6 @@
                         <table class="table">
                             <tbody>
                             <tr>
-                                <td>
-                                    <button type="button" class="btn btn-danger m-r-sm">12</button>
-                                    Total messages
-                                </td>
                                 <td>
                                     <button type="button" class="btn btn-primary m-r-sm">28</button>
                                     Posts

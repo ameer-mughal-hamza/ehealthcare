@@ -61,10 +61,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], 
 
 
 // Routes for Doctors
-Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'email_verified']], function () {
+// , 'middleware' => ['auth', 'email_verified']
+
+Route::group(['prefix' => 'doctor' , 'middleware' => ['auth', 'check_doctor']], function () {
     //All the routes that belongs to the group goes here
-    Route::get('dashboard', function () {
-    });
+    Route::get('dashboard', "DoctorController@dashboard");
+    Route::get('account-settings', "DoctorController@profile");
+    Route::post('account-settings', "DoctorController@updateProfile")->name('doctor_update_profile');
+    Route::get('patients', "DoctorController@showPatients");
+    Route::get('change-password', "DoctorController@password")->name('patient_change_password');;
+    Route::post('change-password', "DoctorController@updatePassword")->name('patient_update_password');;
 });
 
 // , 'middleware' => ['auth', 'email_verified']
@@ -79,7 +85,7 @@ Route::group(['prefix' => 'patient'], function () {
     Route::get('profile', "PatientController@changePassword")->name('patient_profile');
     Route::post('profile', "PatientController@changePassword")->name('updatepatient_profile');
     Route::get('change-password', "PatientController@changePassword")->name('patient_change_password');
-    Route::post('change-password', "PatientController@changePassword")->name('patient_update_password');
+    Route::post('change-password', "PatientController@updatePassword")->name('patient_update_password');
 });
 //
 

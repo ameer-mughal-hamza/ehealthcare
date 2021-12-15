@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
+    public function dashboard()
+    {
+        $display = [
+            'title' => 'Doctor Dashboard | E Health Care'
+        ];
+        return view('doctors/dashboard')->with($display);
+    }
+
     public function index($id)
     {
         $doctor = User::whereHas('doctor', function ($q) {

@@ -13,22 +13,22 @@
                     IN+
                 </div>
             </li>
-            <li class="{{ (request()->is('patient/dashboard')) ? 'active' : '' }}">
-                <a href="{{ url('/patient/dashboard') }}"><i class="fa fa-th-large"></i> <span
-                        class="nav-label">Dashboards</span></a>
+            <li class="{{ (request()->is('doctor/dashboard')) ? 'active' : '' }}">
+                <a href="{{ url('/doctor/dashboard') }}"><i class="fa fa-th-large"></i> <span
+                        class="nav-label">Dashboard</span></a>
             </li>
-            <li class="{{ (request()->is('patient/prescriptions/*')) ? 'active' : '' }}">
-                <a href="{{ url('/patient/prescriptions') }}"><i class="fa fa-file"></i> <span
-                        class="nav-label">Prescriptions</span></a>
+            <li class="{{ (request()->is('doctor/patients/*')) ? 'active' : '' }}">
+                <a href="{{ url('/doctor/patients') }}"><i class="fa fa-file"></i> <span
+                        class="nav-label">Patients</span></a>
             </li>
-            <li class="{{ (request()->is('patient/account-settings')) ? 'active' : '' }}">
-                <a href="{{ url('/admin') }}">
+            <li class="{{ (request()->is('doctor/account-settings')) ? 'active' : '' }}">
+                <a href="{{ url('/doctor/account-settings') }}">
                     <i class="fa fa-user-circle"></i>
                     <span class="nav-label">Profile</span>
                 </a>
             </li>
-            <li class="{{ (request()->is('patient/account-settings')) ? 'active' : '' }}">
-                <a href="{{ url('/patient/change-password') }}">
+            <li class="{{ (request()->is('doctor/change-password')) ? 'active' : '' }}">
+                <a href="{{ url('/doctor/change-password') }}">
                     <i class="fa fa-lock"></i>
                     <span class="nav-label">Change Password</span>
                 </a>
