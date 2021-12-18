@@ -12,7 +12,6 @@ class MedicineController extends Controller
     public function index()
     {
         $medicines = Medicine::all();
-       dd($medicines);
         $display = [
             'title' => 'Add Medicine',
             'medicines' => $medicines
@@ -35,17 +34,25 @@ class MedicineController extends Controller
             'title' => 'Add Medicine'
         ];
 
-        $category = new Medicine();
-        $category->name = $request->name;
-        $category->slug = Str::slug($request->name);
-        $category->save();
-
         return view('admin/medicine/add')->with($display);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:26',
+            'description' => 'required|max:5000'
+        ]);
 
+        $category = new Medicine();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->description = $request->description;
+        $category->save();
+
+        return redirect()->route('medicine_index')->with([
+            'title' => 'Medicine'
+        ]);
     }
 
     public function edit($slug)

@@ -13,9 +13,10 @@
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet"/>
     <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet"/>
     <!-- Custom styles for this template -->
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins/select2/select2-bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet"/>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js" defer></script>
     <link
         rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
@@ -55,6 +56,8 @@
 <script src="{{ asset('js/inspinia.js') }}"></script>
 {{--<script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>--}}
 <script src="{{ asset('js/plugins/wow/wow.min.js') }}"></script>
+<script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js"></script>
 
 <script>
     $(document).ready(function () {

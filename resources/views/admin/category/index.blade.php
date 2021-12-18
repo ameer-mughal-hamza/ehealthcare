@@ -9,9 +9,13 @@
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
+
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
+                        <div class="ibox float-right">
+                            <a href="{{ url('admin/add/category') }}" class="btn btn-primary">Add</a>
+                        </div>
                         <div class="ibox ">
                             <div class="ibox-title">
                                 <h5>Category Table</h5>
@@ -29,6 +33,7 @@
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
+                                    <tbody>
                                     @foreach($categories as $category)
                                         <tr class="gradeA">
                                             <td class="center">{{ $category->id }}</td>
@@ -42,6 +47,14 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination float-right"></ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

@@ -48,7 +48,7 @@
                 name="date_of_birth"
                 type="date"
                 max="{{ now()->toDateString('Y-m-d') }}"
-                value="{{ old('email') }}"
+                value="{{ old('date_of_birth') }}"
                 class="form-control"
                 placeholder="Username" required>
         </div>

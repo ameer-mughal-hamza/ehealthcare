@@ -20,29 +20,31 @@
             <li class="{{ (request()->is('admin/doctors') || request()->is('admin/doctors/*')) ? 'active' : '' }}">
                 <a href="#"><i class="fa fa-stethoscope"></i>
                     <span class="nav-label">Doctors</span>
-                    <span class="float-right label label-primary">500</span>
                 </a>
                 <ul class="nav nav-second-level">
                     <li class="{{ (request()->is('admin/doctors')) ? 'active' : '' }}">
                         <a href="{{ url('admin/doctors/view-all') }}">View</a>
                     </li>
-                    <li class="{{ (request()->is('admin/add-doctor')) ? 'active' : '' }}">
-                        <a href="{{ url('admin/doctors/add') }}">Add</a>
+{{--                    <li class="{{ (request()->is('admin/add-doctor')) ? 'active' : '' }}">--}}
+{{--                        <a href="{{ url('admin/doctors/add') }}">Add</a>--}}
+{{--                    </li>--}}
+                    <li class="{{ (request()->is('admin/become-a-doctor/requests')) ? 'active' : '' }}">
+                        <a href="{{ url('admin/become-a-doctor/requests') }}">Requests</a>
                     </li>
                 </ul>
             </li>
-            <li class="{{ (request()->is('admin/patients/*')) ? 'active' : '' }}">
+            <li class="{{ (request()->is('admin/prescriptions/*')) ? 'active' : '' }}">
                 <a href="{{ url('/admin') }}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">Patients</span></a>
             </li>
-            {{--            <li class="{{ (request()->is('admin/patients/*')) ? 'active' : '' }}">--}}
+            {{--            <li class="{{ (request()->is('admin/prescriptions/*')) ? 'active' : '' }}">--}}
             {{--                <a href="#"><i class="fa fa-user-circle-o"></i>--}}
             {{--                    <span class="nav-label">Patients</span>--}}
             {{--                    <span class="float-right label label-primary">500</span>--}}
             {{--                </a>--}}
             {{--                <ul class="nav nav-second-level">--}}
-            {{--                    <li class="{{ (request()->is('admin/patients/view-all')) ? 'active' : '' }}">--}}
-            {{--                        <a href="{{ url('admin/patients/view-all') }}">View</a>--}}
+            {{--                    <li class="{{ (request()->is('admin/prescriptions/view-all')) ? 'active' : '' }}">--}}
+            {{--                        <a href="{{ url('admin/prescriptions/view-all') }}">View</a>--}}
             {{--                    </li>--}}
             {{--                </ul>--}}
             {{--            </li>--}}

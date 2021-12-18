@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -34,17 +35,23 @@ class CategoryController extends Controller
             'title' => 'Add Category'
         ];
 
+        return view('admin/category/add')->with($display);
+    }
+
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:26'
+        ]);
+
         $category = new Category();
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
         $category->save();
 
-        return view('admin/category/add')->with($display);
-    }
-
-    public function create()
-    {
-
+        return redirect()->route('category_index')->with([
+            'title' => 'Category'
+        ]);
     }
 
     public function edit($slug)

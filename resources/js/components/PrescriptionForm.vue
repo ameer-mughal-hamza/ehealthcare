@@ -4,24 +4,7 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Simple FooTable with pagination, sorting and filter</h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-wrench"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#" class="dropdown-item">Config option 1</a>
-                                </li>
-                                <li><a href="#" class="dropdown-item">Config option 2</a>
-                                </li>
-                            </ul>
-                            <a class="close-link">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
+                        <h5>Prescription Form</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="mb-3" v-for="(row, index) in rows" v-bind:key="row.id">
@@ -95,6 +78,7 @@
 
 <script>
 export default {
+    props: ['user', 'doctor'],
     data() {
         return {
             rows: [
@@ -114,17 +98,20 @@ export default {
         },
         showOrHideDescription(index, val) {
             const findIndex = this.rows.findIndex(a => a.id === index)
-            console.log(val);
+            // console.log(val);
             this.$set(this.rows[findIndex], 'display', val);
-            console.log(this.rows[findIndex]);
+            // console.log(this.rows[findIndex]);
         },
         submit() {
-            console.log(this.rows);
-            axios.post('/api/prescription', this.rows)
+            const payload = {
+                prescriptions: this.rows,
+                user_id: JSON.parse(this.user).id,
+                doctor_id: JSON.parse(this.doctor).id
+            }
+            console.log(payload);
+            axios.post('/api/prescription', payload)
                 .then(response => {
-                    const prescription = JSON.parse(response.data.slice(2))
-                    console.log(response);
-                    console.log(prescription);
+                    window.location.href = '/doctor/dashboard';
                 })
                 .catch(error => {
                     console.log(error);
@@ -133,14 +120,15 @@ export default {
         fetchPrescription() {
             axios.get('/api/prescription/1').then(response => {
                 const prescription = JSON.parse(response.data.slice(2));
-                console.log(prescription);
-                console.log(JSON.parse(prescription.medicine));
-                this.rows = JSON.parse(prescription.medicine);
+                // console.log(prescription);
+                // console.log(JSON.parse(prescription));
+                this.rows = prescription;
             });
         }
     },
     mounted() {
-        this.fetchPrescription();
+        console.log(this.doctor);
+        // this.fetchPrescription();
         let vm = this
         let select = $(this.$el)
         select.select2({

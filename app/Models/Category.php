@@ -8,6 +8,6 @@ class Category extends Model
 {
     public function doctors()
     {
-        return $this->belongsToMany(Doctor::class);
+        return $this->belongsToMany(User::class);
     }
 }

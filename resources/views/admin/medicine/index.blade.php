@@ -12,7 +12,10 @@
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="ibox ">
+                        <div class="ibox float-right">
+                            <a href="{{ url('admin/add/medicine') }}" class="btn btn-primary">Add</a>
+                        </div>
+                        <div class="ibox">
                             <div class="ibox-title">
                                 <h5>Medicine Table</h5>
                             </div>
@@ -29,11 +32,13 @@
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
+                                    <tbody>
                                     @foreach($medicines as $medicine)
                                         <tr class="gradeA">
                                             <td class="center">{{ $medicine->id }}</td>
                                             <td class="center">{{ $medicine->name }}</td>
-                                            <td class="center" title="{{ $medicine->description }}">{{ Str::limit($medicine->description, 55) }}</td>
+                                            <td class="center"
+                                                title="{{ $medicine->description }}">{{ Str::limit($medicine->description, 55) }}</td>
                                             <td class="center">
                                                 <button class="btn btn-warning btn-circle" type="button">
                                                     <i class="fa fa-edit"></i>
@@ -44,6 +49,14 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination float-right"></ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

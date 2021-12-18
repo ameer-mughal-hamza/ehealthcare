@@ -17,8 +17,8 @@
                 <a href="{{ url('/doctor/dashboard') }}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">Dashboard</span></a>
             </li>
-            <li class="{{ (request()->is('doctor/patients/*')) ? 'active' : '' }}">
-                <a href="{{ url('/doctor/patients') }}"><i class="fa fa-file"></i> <span
+            <li class="{{ (request()->is('doctor/prescriptions') || request()->is('doctor/prescriptions/*')) ? 'active' : '' }}">
+                <a href="{{ url('/doctor/prescriptions') }}"><i class="fa fa-file"></i> <span
                         class="nav-label">Patients</span></a>
             </li>
             <li class="{{ (request()->is('doctor/account-settings')) ? 'active' : '' }}">

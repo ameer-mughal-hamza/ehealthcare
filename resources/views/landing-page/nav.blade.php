@@ -24,6 +24,9 @@
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>
                     </li>
+                    <li>
+                        <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
+                    </li>
                     @if(!auth()->check())
                         <li>
                             <a class="nav-link page-scroll" href="{{ url('/login') }}">Login</a>
