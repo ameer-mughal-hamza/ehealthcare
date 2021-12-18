@@ -2239,24 +2239,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user', 'doctor'],
   data: function data() {
     return {
       rows: [{
@@ -2289,17 +2273,19 @@ __webpack_require__.r(__webpack_exports__);
     showOrHideDescription: function showOrHideDescription(index, val) {
       var findIndex = this.rows.findIndex(function (a) {
         return a.id === index;
-      });
-      console.log(val);
-      this.$set(this.rows[findIndex], 'display', val);
-      console.log(this.rows[findIndex]);
+      }); // console.log(val);
+
+      this.$set(this.rows[findIndex], 'display', val); // console.log(this.rows[findIndex]);
     },
     submit: function submit() {
-      console.log(this.rows);
-      axios.post('/api/prescription', this.rows).then(function (response) {
-        var prescription = JSON.parse(response.data.slice(2));
-        console.log(response);
-        console.log(prescription);
+      var payload = {
+        prescriptions: this.rows,
+        user_id: JSON.parse(this.user).id,
+        doctor_id: JSON.parse(this.doctor).id
+      };
+      console.log(payload);
+      axios.post('/api/prescription', payload).then(function (response) {
+        window.location.href = '/doctor/dashboard';
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2308,15 +2294,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/prescription/1').then(function (response) {
-        var prescription = JSON.parse(response.data.slice(2));
-        console.log(prescription);
-        console.log(JSON.parse(prescription.medicine));
-        _this.rows = JSON.parse(prescription.medicine);
+        var prescription = JSON.parse(response.data.slice(2)); // console.log(prescription);
+        // console.log(JSON.parse(prescription));
+
+        _this.rows = prescription;
       });
     }
   },
   mounted: function mounted() {
-    this.fetchPrescription();
+    console.log(this.doctor); // this.fetchPrescription();
+
     var vm = this;
     var select = $(this.$el);
     select.select2({
@@ -45375,40 +45362,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "ibox-title" }, [
-      _c("h5", [_vm._v("Simple FooTable with pagination, sorting and filter")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "ibox-tools" }, [
-        _c("a", { staticClass: "collapse-link" }, [
-          _c("i", { staticClass: "fa fa-chevron-up" }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "dropdown-toggle",
-            attrs: { "data-toggle": "dropdown", href: "#" },
-          },
-          [_c("i", { staticClass: "fa fa-wrench" })]
-        ),
-        _vm._v(" "),
-        _c("ul", { staticClass: "dropdown-menu dropdown-user" }, [
-          _c("li", [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Config option 1"),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Config option 2"),
-            ]),
-          ]),
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "close-link" }, [
-          _c("i", { staticClass: "fa fa-times" }),
-        ]),
-      ]),
+      _c("h5", [_vm._v("Prescription Form")]),
     ])
   },
 ]

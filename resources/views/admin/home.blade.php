@@ -1,6 +1,5 @@
 @extends('master-admin')
 @section('title', 'E Health Care - Dashboard')
-@endsection
 
 @section('content')
     <div id="wrapper">

@@ -12,13 +12,15 @@ class MedicineController extends Controller
     public function show($id)
     {
         $query = Medicine::query();
-        $prescription = $query->where([
+        $medicines = $query->where([
             'id' => $id
         ])->first();
 
-        return response()->json([
-            'data' => $prescription
-        ]);
+        $display = [
+            'medicines' => $medicines
+        ];
+
+        return view('admin/medicine/index')->with($display);
     }
 
     public function create(Request $request)

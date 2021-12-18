@@ -10,6 +10,15 @@
         <div id="page-wrapper" class="gray-bg">
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
@@ -19,17 +28,19 @@
                                 </h3>
                             </div>
                             <div class="ibox-content">
-                                <form method="get">
+                                <form method="post" action="{{ route('add_new_medicine') }}">
+                                    @csrf
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control">
+                                        <div class="col-sm-9">
+                                            <input type="text" name="name" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Description</label>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-9">
                                             <textarea
+                                                name="description"
                                                 cols="30"
                                                 rows="10"
                                                 placeholder="Enter medicine description"
@@ -38,9 +49,9 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-4 col-sm-offset-2">
-                                            <button class="btn btn-white btn-sm" type="submit">
+                                            <a class="btn btn-white btn-sm" type="submit">
                                                 Cancel
-                                            </button>
+                                            </a>
                                             <button class="btn btn-primary btn-sm" type="submit">
                                                 Save changes
                                             </button>

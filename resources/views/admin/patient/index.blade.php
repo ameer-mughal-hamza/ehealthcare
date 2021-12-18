@@ -25,32 +25,35 @@
                                     <tr>
                                         <th>Patient ID</th>
                                         <th>Name</th>
-                                        <th>Gender</th>
-                                        <th data-hide="phone,tablet">Age</th>
-                                        <th data-hide="phone,tablet">Email</th>
-                                        <th data-hide="phone,tablet">Contact</th>
-                                        <th data-hide="phone,tablet">Address</th>
-                                        <th data-hide="phone,tablet">Actions</th>
-
+                                        <th>Email</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
-                                    <tr class="gradeA">
-
-                                        <td> 1234567</td>
-                                        <td>Patient 1</td>
-                                        <td>Male</td>
-                                        <td>30</td>
-                                        <td class="center">test@test.com</td>
-                                        <td class="center">0412345678</td>
-                                        <td class="center">Nieuwelaan 149, 1040 Etterbeek</td>
-                                        <td class="center">
-                                            <button class="btn btn-info btn-circle" type="button"><i class="fa fa-eye"></i></button>
-                                            <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-danger btn-circle" type="button"><i class="fa fa-trash"></i></button>
+                                    <tbody>
+                                    @foreach($patients as $patient)
+                                        <tr class="gradeA">
+                                            <td>{{ $patient->id }}</td>
+                                            <td>{{ $patient->name }}</td>
+                                            <td>{{ $patient->email }}</td>
+                                            <td class="center">
+                                                <a href="{{ url('admin/patient/detail/' . $patient->id) }}"
+                                                   class="btn btn-info btn-circle" type="button"><i
+                                                        class="fa fa-eye"></i></a>
+                                                <button class="btn btn-warning btn-circle" type="button"><i
+                                                        class="fa fa-edit"></i></button>
+                                                <button class="btn btn-danger btn-circle" type="button"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination float-right"></ul>
                                         </td>
                                     </tr>
-
-
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

@@ -25,37 +25,47 @@
                                         <th>Doctor ID</th>
                                         <th>Name</th>
                                         <th>Gender</th>
-                                        <th data-hide="phone,tablet">Email</th>
-                                        <th data-hide="phone,tablet">Age</th>
-                                        <th data-hide="phone,tablet">Address</th>
-                                        <th data-hide="phone,tablet">Specialization</th>
-                                        <th data-hide="phone,tablet">Contact No</th>
-                                        <th data-hide="phone,tablet">Actions</th>
-
-
+                                        <th>Email</th>
+                                        <th>Specialization</th>
+                                        <th>Contact No</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
-                                    <tr class="gradeA">
-
-                                        <td> 1567</td>
-                                        <td>Doctor 1</td>
-                                        <td>Male</td>
-                                        <td>test@test.com</td>
-                                        <td class="center">30</td>
-                                        <td class="center">Nieuwelaan</td>
-                                        <td class="center">GP,Dermatologist</td>
-                                        <td class="center">0412345678</td>
-                                        <td class="center">
-                                            <button class="btn btn-info btn-circle" type="button"><i
-                                                    class="fa fa-eye"></i></button>
-                                            <button class="btn btn-warning btn-circle" type="button"><i
-                                                    class="fa fa-edit"></i></button>
-                                            <button class="btn btn-danger btn-circle" type="button"><i
-                                                    class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-
+                                    <tbody>
+                                    @foreach($doctors as $doctor)
+                                        <tr>
+                                            <td>{{ $doctor->doctor->riziv_number }}</td>
+                                            <td>{{ $doctor->first_name . ' ' . $doctor->last_name }}</td>
+                                            @if ($doctor->doctor->gender == 1)
+                                                <td>Male</td>
+                                            @elseif($doctor->doctor->gender == 2)
+                                                <td>Female</td>
+                                            @else
+                                                <td>Other</td>
+                                            @endif
+                                            <td>{{ $doctor->email }}</td>
+                                            <td>
+                                                @for($i = 0; $i < 2; $i++)
+                                                    <span
+                                                        class="label label-primary">{{ $doctor->categories[$i]->name }}</span>
+                                                @endfor
+                                                @if(count($doctor->categories) > 2)
+                                                    <span
+                                                        class="label label-primary">+{{ count($doctor->categories) - 2 }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="center">{{ $doctor->doctor->mobile }}</td>
+                                            <td class="center">
+                                                <a href="{{ url('/admin/doctors/detail/' . $doctor->id) }}" class="btn btn-info btn-circle" type="button"><i
+                                                        class="fa fa-eye"></i></a>
+                                                <button class="btn btn-warning btn-circle" type="button"><i
+                                                        class="fa fa-edit"></i></button>
+                                                <button class="btn btn-danger btn-circle" type="button"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

@@ -1,29 +1,18 @@
 '<?php
 
-use App\Events\PostEvent;
-use App\Models\User;
-use Illuminate\Support\Facades\Crypt;
+use App\Http\Services\DoctorService;
+use App\Http\Services\LocationService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
 // Routes for ADMIN
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], function () {
+// , 'middleware' => ['auth', 'email_verified']
+Route::group(['prefix' => 'admin'], function () {
     //All the routes that belongs to the group goes here
-    Route::get('/', function () {
-        return view("admin/home");
-    });
+    Route::get('dashboard', "Admin\AdminController@dashboard");
+    Route::get('doctors/add', "Admin\DoctorController@showAddDoctor");
+
+    Route::get("doctors/detail/{id}", "Admin\DoctorController@detail");
 
     Route::get('add-patient', function () {
         return view('admin/patient/add-patient');
@@ -31,10 +20,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], 
 
     Route::get('view/category/all', "CategoryController@index");
     Route::get('add/category', "CategoryController@add");
+    Route::post('add/category', "CategoryController@create")->name('add_new_category');
     Route::get('edit/{slug}/category', "CategoryController@edit");
 
-    Route::get('view/medicine/all', "MedicineController@index");
+    Route::get('view/medicine/all', "MedicineController@index")->name('medicine_index');
     Route::get('add/medicine', "MedicineController@add");
+    Route::post('add/medicine', "MedicineController@create")->name('add_new_medicine');
     Route::get('edit/{slug}/medicine', "MedicineController@edit");
     Route::post('update/{slug}/medicine', "MedicineController@update")->name('update_medicine');
 
@@ -46,13 +37,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], 
     Route::get('/post/{id}', "PostController@show")->name('view_post');
     Route::get('/post/{id}/delete', "MessageController@delete")->name('delete_post');
 
-    Route::get('view/doctor', function () {
-        return view('admin/doctors/index');
-    });
+    Route::get('become-a-doctor/requests', "Admin\DoctorController@becomeADoctorRequests");
+    Route::get('become-a-doctor/requests/view/{id}', "Admin\DoctorController@becomeADoctorRequestsView");
 
-    Route::get('view/patient', function () {
-        return view('admin/patient/index');
-    });
+    Route::get('approve-doctor/{id}', "Admin\DoctorController@approveDoctor")->name('approve_doctor_account');
+
+    Route::get('/doctors/view-all', "Admin\DoctorController@index");
+
+    Route::get('/prescriptions', "Admin\PatientController@index");
+    Route::get('/patient/detail/{id}', "Admin\PatientController@detail");
 
     Route::get('add-doctor', function () {
         return view('admin/doctors/add-doctor');
@@ -63,12 +56,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'email_verified']], 
 // Routes for Doctors
 // , 'middleware' => ['auth', 'email_verified']
 
-Route::group(['prefix' => 'doctor' , 'middleware' => ['auth', 'check_doctor']], function () {
+Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'check_doctor']], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', "DoctorController@dashboard");
+    Route::get('prescriptions', "Doctor\PatientController@index")->name('view_all_prescriptions');
+    Route::get('add/new/patient', "Doctor\PatientController@showAddNewPatientForm")->name('doctor_add_new_patient');
+    Route::post('add/new/patient', "Doctor\PatientController@addNewPatient")->name('doctor_prescribe_medicine');
+    Route::get('/prescribe/medicine', "Doctor\PatientController@prescribeMedicine");
+
     Route::get('account-settings', "DoctorController@profile");
     Route::post('account-settings', "DoctorController@updateProfile")->name('doctor_update_profile');
-    Route::get('patients', "DoctorController@showPatients");
+//    Route::get('prescriptions', "DoctorController@showPatients");
     Route::get('change-password', "DoctorController@password")->name('patient_change_password');;
     Route::post('change-password', "DoctorController@updatePassword")->name('patient_update_password');;
 });
@@ -98,6 +96,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('logout', "AuthController@logout");
     Route::get('contact', "ContactController@index");
 
+    Route::get('/doctor-account-verification/{token}', "DoctorController@verifyDoctorAccount")->name('verify_doctor_account');
+
     Route::get('/account-verification/{token}', "AuthController@verify_account");
 
     Route::get('/verify-account-success', function () {
@@ -112,27 +112,22 @@ Route::group(['prefix' => '/'], function () {
         ]);
     })->name('verify_account_message');
 
+    Route::get('become-a-doctor', "DoctorController@becomeADoctor");
+    Route::post('become-a-doctor', "DoctorController@saveDoctor")->name('front_save_doctor');
 });
 
-Route::group(['prefix' => '/', 'middleware' => ['auth', 'email_verified']], function () {
+Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
     //All the routes that belongs to the landing page goes here
     Route::get('doctor-detail/{id}', "DoctorController@index");
 
 
-    Route::get('find-a-doctor', function () {
-        return view('landing-page/doctor-page')->with(['title' => 'Search Doctor']);
+    Route::get('find-a-doctor', function (LocationService $locationService, DoctorService $doctorService) {
+        return view('landing-page/doctor-page')->with([
+            'title' => 'Search Doctor',
+            'municipalities' => $locationService->getMunicipalities(),
+            'categories' => $doctorService->getCategories(),
+        ]);
     });
-});
-
-
-Route::get('test-event/asasd', function () {
-    return \Request::segment(2);
-//    event(new PostEvent('This is a new message!', User::find(1)));
-});
-
-Route::get('/map', function () {
-//    return \App\Models\User::all();
-    return view('landing-page/map')->with(['title' => 'Search Doctor']);
 });
 
 Route::get('/post', function () {
@@ -152,16 +147,6 @@ Route::get('/get-user', function () {
     dd(DB::getQueryLog());
 });
 
-//Route::get('/', "HomeController@index")->name("home");
-//
-//Route::get('/contact', "ContactController@index");
-//Route::get('/login', "AuthController@index");
-//Route::post('/login', "AuthController@login")->name('login');
-//
-//Route::get('/find-a-doctor', function () {
-//    return view('landing-page/doctor-page')->with(['title' => 'Search Doctor']);
-//});
-
 Route::get('/forget-password', function () {
     return view('landing-page/forget-password')->with(['title' => 'Forget password']);
 });
@@ -170,15 +155,11 @@ Route::get('/reset-password', function () {
     return view('landing-page/contact')->with(['title' => 'Reset password']);
 });
 
-// Route::middleware('checkUserRole')->get('/admin', function () {
-//     return view('admin/home');
-// });
-
 Route::middleware('checkUserRole')->get('/admin/doctors', function () {
     return view('admin/doctors/index');
 });
 
-Route::middleware('checkUserRole')->get('/admin/doctors/detail', function () {
+Route::get('/admin/doctors/detail', function () {
     return view('admin/doctors/detail');
 });
 
