@@ -23,6 +23,9 @@ class AuthController extends Controller
 
     public function index()
     {
+        if (\auth()->check()) {
+            return redirect('home');
+        }
         $display = [
             'title' => getTitle('Login')
         ];

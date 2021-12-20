@@ -89,4 +89,19 @@ function getLanguageValue($key)
     ])->first();
 }
 
+function totalPatients()
+{
+    return \App\Models\User::where('role', 3)->get()->count();
+}
+
+function totalDoctors()
+{
+    return \App\Models\User::where('role', 2)->get()->count();
+}
+
+function totalPosts()
+{
+    return \App\Models\Post::all()->count();
+}
+
 ?>

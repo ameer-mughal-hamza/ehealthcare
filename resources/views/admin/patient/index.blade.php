@@ -40,10 +40,6 @@
                                                 <a href="{{ url('admin/patient/detail/' . $patient->id) }}"
                                                    class="btn btn-info btn-circle" type="button"><i
                                                         class="fa fa-eye"></i></a>
-                                                <button class="btn btn-warning btn-circle" type="button"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-circle" type="button"><i
-                                                        class="fa fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
