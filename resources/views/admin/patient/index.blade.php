@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
@@ -30,7 +31,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($patients as $patient)
+                                    @foreach($prescriptions as $patient)
                                         <tr class="gradeA">
                                             <td>{{ $patient->id }}</td>
                                             <td>{{ $patient->name }}</td>

@@ -8,7 +8,8 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
-            @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
+            @include('shared.top-nav')
+            @include('admin.shared.breadcrumbs', ['title' => 'Messages', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-md-12">

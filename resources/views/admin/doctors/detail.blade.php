@@ -8,20 +8,21 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'Doctors'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row m-b-lg m-t-lg">
                     <div class="col-md-6">
 
                         <div class="profile-image">
-                            <img src="{{ $doctor->doctor->picture_url }}"
+                            <img src="{{ asset('/img/profile_small_thumbnail.jpg') }}"
                                  class="rounded-circle circle-border m-b-md" alt="profile">
                         </div>
                         <div class="profile-info">
                             <div class="">
                                 <div>
                                     <h2 class="no-margins">
-                                        Alex Smith
+                                        {{ $doctor->name }}
                                     </h2>
                                     <h6>
                                         @foreach($doctor->categories as $category)

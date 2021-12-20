@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Prescription;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,11 +23,11 @@ class PatientController extends Controller
 
     public function detail($id)
     {
-        $patient = User::with(['patient', 'posts'])
-            ->where([
-                'role' => 3,
-                'id' => $id
-            ])->first();
+        $patient = Prescription::with(['patient', 'patient.user', 'patient.user.posts'])->where([
+            'id' => $id
+        ])->first();
+
+        dd($patient);
 
         $display = [
             'title' => "Patient Detail",

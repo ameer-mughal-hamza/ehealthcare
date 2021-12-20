@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 @if ($errors->any())

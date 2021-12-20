@@ -1,10 +1,11 @@
 @extends('master-patient')
-@section('title', 'E Health Care - Dashboard')
+@section('title', $title)
 
 @section('content')
     <div id="wrapper">
         @include('patient/nav')
         <div id="page-wrapper" class="gray-bg dashbard-1">
+            @include('shared.top-nav')
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">

@@ -1,6 +1,6 @@
 <div class="navbar-wrapper">
     <nav
-        class="navbar navbar-default navbar-fixed-top navbar-expand-md"
+        class="navbar navbar-default navbar-fixed-top navbar-expand-md navbar-scroll"
         role="navigation"
     >
         <div class="container">
@@ -22,10 +22,10 @@
                         <a class="nav-link page-scroll" href="{{ url('/find-a-doctor') }}">Find a Doctor</a>
                     </li>
                     <li>
-                        <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>
+                        <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
                     </li>
                     <li>
-                        <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
+                        <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>
                     </li>
                     @if(!auth()->check())
                         <li>

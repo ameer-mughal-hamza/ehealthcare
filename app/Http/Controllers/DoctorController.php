@@ -74,6 +74,8 @@ class DoctorController extends Controller
             'categories'
         ])->where('role', '=', 2);
 
+        $postal_code = explode(', ', $request->payload['location']);
+
         if ($request->exists('payload')) {
             if ($request->payload['name']) {
                 $query->where('first_name', 'like', "%" . $request->payload['name'] . "%")
@@ -81,8 +83,8 @@ class DoctorController extends Controller
             }
 
             if ($request->payload['location'] !== "" && $request->payload['location'] !== "--- Select Area ---") {
-                $query->whereHas('address', function ($q) use ($request) {
-                    $q->where('muncipility', $request->payload['location']);
+                $query->whereHas('address', function ($q) use ($postal_code) {
+                    $q->where('postal_code', $postal_code[0]);
                 });
             }
 
@@ -95,9 +97,35 @@ class DoctorController extends Controller
 
         $result = $query->get();
 
+        foreach ($result as $doctor) {
+            $address = $doctor->address;
+
+            $latLonObj = getLatLonOfZipCode($address->postal_code);
+
+            $featureObjs[] = [
+                'type' => 'Feature',
+                'geometry' => [
+                    'type' => 'Point',
+                    'coordinates' => $latLonObj,
+                ],
+                'properties' => [
+                    'title' => $doctor->name,
+                    'description' => $doctor->doctor->description,
+                    'language' => getLanguageValue($doctor->doctor->language)->value,
+                    'mobile' => $doctor->doctor->mobile ?? '',
+                ]
+            ];
+        }
+
+        $features = [
+            'type' => 'FeatureCollection',
+            'features' => $featureObjs
+        ];
+
         return [
             'list' => view('landing-page/search_doctors_result', compact('result'))->render(),
-            'grid' => view('landing-page/search_doctors_grid_result', compact('result'))->render()
+            'grid' => view('landing-page/search_doctors_grid_result', compact('result'))->render(),
+            'features' => json_encode($features)
         ];
     }
 

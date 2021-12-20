@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'Doctors'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
@@ -18,9 +19,9 @@
                             </div>
                             <div>
                                 <div class="ibox-content profile-content">
-                                    <h4><strong>{{ $patient->name }}</strong></h4>
-                                    <p><i class="fa fa-envelope"></i> {{ $patient->email }} <span
-                                            class="label {{ $patient->is_verified ? 'label-primary' : 'label-danger' }} ">{{ $patient->is_verified ? 'Verified' : 'Not Verified' }}</span>
+                                    <h4><strong>{{ $patient->patient->user->name }}</strong></h4>
+                                    <p><i class="fa fa-envelope"></i> {{ $patient->patient->user->email }} <span
+                                            class="label {{ $patient->patient->user->is_verified ? 'label-primary' : 'label-danger' }} ">{{ $patient->is_verified ? 'Verified' : 'Not Verified' }}</span>
                                     </p>
                                     <hr>
                                     <div class="row m-t-lg">
@@ -31,7 +32,7 @@
                                         <div class="col-md-4 text-center">
                                             <h3>Role</h3>
                                             <h5>
-                                                <strong>{{ $patient->role === 1 ? 'Patient' : '' }}</strong>
+                                                <strong>{{ $patient->patient->user->role === 1 ? 'Patient' : '' }}</strong>
                                             </h5>
                                         </div>
                                         <div class="col-md-4 text-center">
@@ -48,60 +49,64 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Posts</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Description</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($patient->posts as $post)
+                    @if($patient->patient->user->posts->count())
+                        <div class="col-lg-6">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                                    <h5>Posts</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="table">
+                                        <thead>
                                         <tr>
-                                            <td>{{ $post->id }}</td>
-                                            <td>{{ $post->description }}</td>
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($patient->patient->user->posts as $post)
+                                            <tr>
+                                                <td>{{ $post->id }}</td>
+                                                <td>{{ $post->description }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Prescriptions</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Description</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($patient->posts as $post)
+                    @endif
+                    @if(($patient->count()))
+                        <div class="col-lg-6">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                                    <h5>Prescriptions</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="table">
+                                        <thead>
                                         <tr>
-                                            <td>{{ $post->id }}</td>
-                                            <td>{{ $post->description }}</td>
+                                            <th>ID</th>
+                                            <th>Medicine</th>
+                                            <th>Actions</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($patient as $post)
+                                            <tr>
+                                                <td>{{ $post->id }}</td>
+                                                <td>{{ Str::limit($post->medicine, 50) }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="row">
 

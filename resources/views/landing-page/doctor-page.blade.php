@@ -153,6 +153,7 @@
 @section('landing-js')
     <script type="text/javascript">
         $(document).ready(function () {
+            let features;
 
             $(".select2_location").select2({
                 theme: 'bootstrap4',
@@ -162,12 +163,10 @@
                 theme: 'bootstrap4',
             });
 
-
             $(".search").click(function () {
                 var location = $("#s_location option:selected").text();
                 var service = $("#s_service option:selected").text();
                 var name = $("#s_name").val();
-
                 $.ajax({
                     url: "/api/search-doctor",
                     type: "POST",
@@ -179,8 +178,14 @@
                         }
                     },
                     success: function (result) {
-                        $(".doctor-list").html(result.list)
-                        $("#grid-view").html(result.grid)
+                        $(".doctor-list").html(result.list);
+                        $("#grid-view").html(result.grid);
+                        features = result.features;
+
+                        mapboxgl.accessToken = 'pk.eyJ1IjoiYW1laGFtemEiLCJhIjoiY2t3Zm51cXl3MDAybTJ3bmtkZjNodmxxeiJ9.xtY07eJbX8AtWL5ezsLbxQ';
+                        navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
+                            enableHighAccuracy: true
+                        });
                     },
                     error: function (result) {
                         console.log(result);
@@ -189,6 +194,40 @@
                     }
                 })
             });
+
+            function successLocation(position) {
+                // setupMap([position.coords.longitude, position.coords.latitude])
+                setupMap([5.3426, 50.9326])
+            }
+
+            function errorLocation() {
+                setupMap([5.3426, 50.9326])
+            }
+
+            function setupMap(center) {
+                const map = new mapboxgl.Map({
+                    container: "map",
+                    style: "mapbox://styles/mapbox/streets-v11",
+                    center: center,
+                    zoom: 11
+                })
+                map.addControl(new mapboxgl.FullscreenControl());
+
+                features = JSON.parse(features);
+                for (const feature of features.features) {
+                    // create a HTML element for each feature
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+
+                    // make a marker for each feature and add to the map
+                    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(
+                        new mapboxgl.Popup({offset: 25}) // add popups
+                            .setHTML(
+                                `<h3 title="Name">${feature.properties.title}</h3><p title="Language">${feature.properties.language}</p><p title="Contact No">${feature.properties.mobile}</p><p title="Description">${feature.properties.description.substring(0, 50)}</p>`
+                            )
+                    ).addTo(map);
+                }
+            }
         });
     </script>
 @endsection

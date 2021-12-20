@@ -57,15 +57,27 @@ class CategoryController extends Controller
     public function edit($slug)
     {
         $category = Category::where('slug', $slug)->first();
+
         return view('admin/category/edit')->with([
-            'title' => '',
+            'title' => 'Edit Category',
             'category' => $category
         ]);
     }
 
-    public function update()
+    public function update(Request $request, $slug)
     {
+        $this->validate($request, [
+            'name' => 'required|max:26'
+        ]);
 
+        $category = Category::where('slug', $slug)->first();
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name);
+        $category->save();
+
+        return redirect()->route('category_index')->with([
+            'title' => 'Category'
+        ]);
     }
 
     public function delete()

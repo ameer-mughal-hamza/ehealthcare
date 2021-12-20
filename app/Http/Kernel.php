@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckDoctorMiddleware;
+use App\Http\Middleware\CheckPatientMiddleware;
 use App\Http\Middleware\EmailVerifiedMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -68,6 +70,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'email_verified' => EmailVerifiedMiddleware::class,
         'check_doctor' => CheckDoctorMiddleware::class,
+        'check_admin' => CheckAdmin::class,
+        'check_patient' => CheckPatientMiddleware::class
 //        'checkUserRole' => RoleMiddleware::class,
     ];
 }

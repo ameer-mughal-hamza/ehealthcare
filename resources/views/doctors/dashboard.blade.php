@@ -15,7 +15,7 @@
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+                                <i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
                             </a>
                             <ul class="dropdown-menu dropdown-messages dropdown-menu-right">
                                 <li>
@@ -25,7 +25,8 @@
                                         </a>
                                         <div class="media-body">
                                             <small class="float-right">46h ago</small>
-                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <strong>Mike Loreipsum</strong> started following <strong>Monica
+                                                Smith</strong>. <br>
                                             <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
                                         </div>
                                     </div>
@@ -38,7 +39,8 @@
                                         </a>
                                         <div class="media-body ">
                                             <small class="float-right text-navy">5h ago</small>
-                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica
+                                                Smith</strong>. <br>
                                             <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
                                         </div>
                                     </div>
@@ -68,7 +70,7 @@
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                <i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+                                <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
                             </a>
                             <ul class="dropdown-menu dropdown-alerts">
                                 <li>
@@ -122,52 +124,18 @@
                     <div class="widget-head-color-box navy-bg p-lg text-center">
                         <div class="m-b-md">
                             <h2 class="font-bold no-margins">
-                                Alex Smith
+                                {{ auth()->user()->name }}
                             </h2>
-                            <small>Founder of Groupeq</small>
+                            <small>{{ auth()->user()->doctor->mobile }}</small>
                         </div>
                         <img src="img/a4.jpg" class="rounded-circle circle-border m-b-md" alt="profile">
                         <div>
-                            <span>100 Tweets</span> |
-                            <span>350 Following</span> |
-                            <span>610 Followers</span>
+                            <span>{{ getTotalPosts() }} {{ Str::plural('Post', getTotalPosts()) }}</span>
                         </div>
                     </div>
                     <div class="widget-text-box">
-                        <h4 class="media-heading">Alex Smith</h4>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <div class="text-right">
-                            <a href=""  class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
-                            <a href="" class="btn btn-xs btn-primary"><i class="fa fa-heart"></i> Love</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div>
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-primary m-r-sm">28</button>
-                                    Posts
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-info m-r-sm">15</button>
-                                    Comments
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="button" class="btn btn-success m-r-sm">40</button>
-                                    Likes
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-info m-r-sm">40</button>
-                                    Reviews
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h4 class="media-heading">{{ auth()->user()->name }}</h4>
+                        <p>{{  Str::limit(auth()->user()->doctor->description, 500) }}</p>
                     </div>
                 </div>
             </div>

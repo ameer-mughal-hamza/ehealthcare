@@ -8,7 +8,8 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
-            @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
+            @include('shared.top-nav')
+            @include('admin.shared.breadcrumbs', ['title' => 'Categories', 'page'=> 'Add'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -37,10 +38,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col-sm-4 col-sm-offset-2">
-                                            <button class="btn btn-white btn-sm" type="submit">
-                                                Cancel
-                                            </button>
+                                        <div class="col-sm-4 col-sm-offset-2 ">
                                             <button class="btn btn-primary btn-sm" type="submit">
                                                 Save changes
                                             </button>

@@ -5,9 +5,6 @@
             <li class="breadcrumb-item">
                 <a href="{{ url('home') }}">Home</a>
             </li>
-            <li class="breadcrumb-item">
-                <a>Tables</a>
-            </li>
             <li class="breadcrumb-item active">
                 <strong>{{ $page }}</strong>
             </li>

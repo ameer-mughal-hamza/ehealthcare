@@ -12,14 +12,19 @@ class ProfileController extends Controller
     public function showChangePasswordForm()
     {
         $display = [
-            'title' => ''
+            'title' => 'EHealth Care | Change Password'
         ];
 
-        return view('doctors/change-password')->with($display);
+        return view('patient/change-password')->with($display);
     }
 
     public function submitChangePasswordForm(Request $request)
     {
+        $this->validate($request, [
+            'password' => 'required|min:8,max:22|confirmed',
+            'old_password' => 'required|min:8,max:22'
+        ]);
+
         if (!(Hash::check($request->get('password'), Auth::user()->password))) {
             return redirect()->back()->with("error", "Your current password does not matches with the password.");
         }
@@ -27,11 +32,6 @@ class ProfileController extends Controller
         if (strcmp($request->get('password'), $request->get('new_password')) == 0) {
             return redirect()->back()->with("error", "New Password cannot be same as your current password.");
         }
-
-        $this->validate($request, [
-            'password' => 'required|min:8,max:22|confirmed',
-            'old_password' => 'required|min:8,max:22'
-        ]);
 
         //Change Password
         $user = Auth::user();

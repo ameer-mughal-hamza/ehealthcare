@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('patient/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">

@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Blog', 'page'=> 'Blog'])
             <div class="wrapper wrapper-content  animated fadeInRight article">
                 <div class="row justify-content-md-center">

@@ -88,6 +88,7 @@
     })
 
     function successLocation(position) {
+        // setupMap([5.3426, 50.9326])
         setupMap([position.coords.longitude, position.coords.latitude])
     }
 
@@ -102,7 +103,7 @@
             container: "map",
             style: "mapbox://styles/mapbox/streets-v11",
             center: center,
-            zoom: 8
+            zoom: 11
         })
         map.addControl(new mapboxgl.FullscreenControl());
 

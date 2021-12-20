@@ -70,12 +70,13 @@
     <section id="features" class="container services">
         <div class="row">
             <div class="col-sm-4">
-                <h2>Lorem Ipsum</h2>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                <h2>Find any doctor</h2>
+                <p>A platform to find all the doctors with different specializations according to your need with just a single click. Find a doctor by name, location or specialization. </p>
             </div>
             <div class="col-sm-4">
-                <h2>Lorem Ipsum</h2>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                <h2>View nearby doctors on a map</h2>
+                <p>An emergency? Quickly find doctors nearby your vicinity using our
+                    map-based search functionality</p>
             </div>
             <div class="col-sm-4">
                 <h2>Lorem Ipsum</h2>

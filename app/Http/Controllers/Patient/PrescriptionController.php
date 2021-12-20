@@ -57,11 +57,5 @@ class PrescriptionController extends Controller
         ];
 
         return view('shared/prescription')->with($display);
-//        $display = [
-//            'title' => 'Patient Prescription',
-//            'prescriptions' => ''
-//        ];
-//
-//        return view('shared/prescription')->with($display);
     }
 }
