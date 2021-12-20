@@ -24,11 +24,11 @@
                         </li>
                     @endif
                     @if(auth()->check())
-                        @if(auth()->user()->role === '1')
+                        @if(auth()->user()->role === 1)
                             <li>
                                 <a class="nav-link page-scroll" href="{{ url('admin/dashboard') }}">Dashboard</a>
                             </li>
-                        @elseif(auth()->user()->role === '2')
+                        @elseif(auth()->user()->role === 2)
                             <li>
                                 <a class="nav-link page-scroll" href="{{ url('doctor/dashboard') }}">Dashboard</a>
                             </li>
@@ -41,9 +41,11 @@
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>
                     </li>
-                    <li>
-                        <a class="nav-link page-scroll" href="{{ url('/post') }}">Posts</a>
-                    </li>
+                    @if(auth()->check())
+                        <li>
+                            <a class="nav-link page-scroll" href="{{ url('/post') }}">Posts</a>
+                        </li>
+                    @endif
                     @if(!auth()->check())
                         <li>
                             <a class="nav-link page-scroll" href="{{ url('/login') }}">Login</a>

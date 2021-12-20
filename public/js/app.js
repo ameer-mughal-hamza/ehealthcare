@@ -1964,6 +1964,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   mounted: function mounted() {
@@ -1974,7 +1975,8 @@ __webpack_require__.r(__webpack_exports__);
       posts: [],
       comment: "",
       errors: {},
-      description: ""
+      description: "",
+      error: ""
     };
   },
   methods: {
@@ -1988,16 +1990,20 @@ __webpack_require__.r(__webpack_exports__);
     submitPost: function submitPost() {
       var _this2 = this;
 
+      if (this.description === "") {
+        this.error = "The field is required";
+      }
+
       var user_id = JSON.parse(this.user).id;
       axios.post('api/post/submit', {
         description: this.description,
         user_id: user_id
       }).then(function (response) {
-        _this2.posts.push(response.data);
-
-        console.log(_this2.posts);
         _this2.description = "";
+
+        _this2.posts.push(response.data.data);
       })["catch"](function (error) {
+        console.log(response);
         window.location.reload;
       });
     },
@@ -44855,6 +44861,21 @@ var render = function () {
               },
             },
           }),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "float-left text-danger",
+              model: {
+                value: _vm.error,
+                callback: function ($$v) {
+                  _vm.error = $$v
+                },
+                expression: "error",
+              },
+            },
+            [_vm._v(_vm._s(_vm.error))]
+          ),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "text-right" }, [
