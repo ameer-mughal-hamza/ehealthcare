@@ -78,35 +78,35 @@
                             </div>
                         </div>
                     @endif
-                    @if(($patient->count()))
-                        <div class="col-lg-6">
-                            <div class="ibox ">
-                                <div class="ibox-title">
-                                    <h5>Prescriptions</h5>
-                                </div>
-                                <div class="ibox-content">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Medicine</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($patient as $post)
-                                            <tr>
-                                                <td>{{ $post->id }}</td>
-                                                <td>{{ Str::limit($post->medicine, 50) }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                        <tfoot></tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+{{--                    @if(($patient->count()))--}}
+{{--                        <div class="col-lg-6">--}}
+{{--                            <div class="ibox ">--}}
+{{--                                <div class="ibox-title">--}}
+{{--                                    <h5>Prescriptions</h5>--}}
+{{--                                </div>--}}
+{{--                                <div class="ibox-content">--}}
+{{--                                    <table class="table">--}}
+{{--                                        <thead>--}}
+{{--                                        <tr>--}}
+{{--                                            <th>ID</th>--}}
+{{--                                            <th>Medicine</th>--}}
+{{--                                            <th>Actions</th>--}}
+{{--                                        </tr>--}}
+{{--                                        </thead>--}}
+{{--                                        <tbody>--}}
+{{--                                        @foreach($patient as $post)--}}
+{{--                                            <tr>--}}
+{{--                                                <td>{{ $post->id }}</td>--}}
+{{--                                                <td>{{ Str::limit($post->medicine, 50) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforeach--}}
+{{--                                        </tbody>--}}
+{{--                                        <tfoot></tfoot>--}}
+{{--                                    </table>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
                 </div>
                 <div class="row">
 

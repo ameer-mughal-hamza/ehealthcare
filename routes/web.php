@@ -137,6 +137,11 @@ Route::group(['prefix' => '/'], function () {
     Route::get('become-a-doctor', "DoctorController@becomeADoctor");
     Route::post('become-a-doctor', "DoctorController@saveDoctor")->name('front_save_doctor');
     Route::post("/review/submit", function (Request $request) {
+
+        $this->validate($request, [
+            'description' => 'required|max:1500'
+        ]);
+
         $review = new Review();
 
         $review->doctor_id = $request->doctor_id;

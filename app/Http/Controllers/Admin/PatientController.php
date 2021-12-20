@@ -25,11 +25,7 @@ class PatientController extends Controller
     {
         $patient = Prescription::with(['patient', 'patient.user', 'patient.user.posts'])->where([
             'id' => $id
-        ])->whereHas('patient.user', function ($query) use ($id) {
-            $query->where('id', $id);
-        })->get();
-
-        dd($patient->id);
+        ])->first();
 
         $display = [
             'title' => "Patient Detail",
