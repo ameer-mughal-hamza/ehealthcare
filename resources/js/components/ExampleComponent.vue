@@ -5,6 +5,7 @@
                     <textarea name="post" v-model="description" placeholder="What's on your mind?" class="form-control"
                               id="post" cols="30"
                               rows="5"></textarea>
+                <span class="float-left text-danger" v-model="error">{{ error }}</span>
             </div>
             <div class="text-right">
                 <button @click="submitPost" class="mt-2 btn btn-primary">Post!</button>
@@ -65,7 +66,8 @@ export default {
             posts: [],
             comment: "",
             errors: {},
-            description: ""
+            description: "",
+            error: ""
         }
     },
     methods: {
@@ -75,15 +77,18 @@ export default {
             });
         },
         submitPost() {
+            if (this.description === "") {
+                this.error = "The field is required";
+            }
             const user_id = JSON.parse(this.user).id;
             axios.post('api/post/submit', {
                 description: this.description,
                 user_id: user_id
             }).then(response => {
-                this.posts.push(response.data);
-                console.log(this.posts);
                 this.description = "";
+                this.posts.push(response.data.data);
             }).catch(error => {
+                console.log(response);
                 window.location.reload;
             });
         },
