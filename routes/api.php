@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Medicine;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,11 +26,57 @@ Route::get('/check', function () {
     ], 200);
 });
 
+
+Route::post("/search-doctor/initial", function () {
+    $doctors = User::with([
+        'doctor',
+        'doctor.user',
+        'address'
+    ])->where([
+        'role' => 2
+    ])->get();
+
+    foreach ($doctors as $doctor) {
+        $address = $doctor->address;
+
+        $latLonObj = getLatLonOfZipCode($address->postal_code);
+
+        $featureObjs[] = [
+            'type' => 'Feature',
+            'geometry' => [
+                'type' => 'Point',
+                'coordinates' => $latLonObj,
+            ],
+            'properties' => [
+                'title' => $doctor->name,
+                'description' => $doctor->doctor->description,
+                'language' => getLanguageValue($doctor->doctor->language)->value,
+                'mobile' => $doctor->doctor->mobile ?? '',
+            ]
+        ];
+    }
+
+    $features = [
+        'type' => 'FeatureCollection',
+        'features' => $featureObjs
+    ];
+
+    return response()->json([
+        'data' => json_encode($features)
+    ]);
+});
 Route::post("/search-doctor", "DoctorController@searchDoctor");
 
 Route::apiResource('/blogs', "Api\BlogController");
 Route::get('/prescription/{id}', function ($id) {
     return Medicine::where('id', $id)->first();
+});
+
+Route::get('/medicines', function () {
+    $medicines = Medicine::all()->pluck('name');
+    return response()->json([
+        'medicines' => $medicines
+    ]);
 });
 
 Route::post('/prescription', "Api\PrescriptionController@save");

@@ -12,44 +12,46 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Patient(s) Table</h5>
-                            </div>
                             <div class="ibox-content">
                                 <input type="text" class="form-control form-control-sm m-b-xs" id="filter"
-                                       placeholder="Search patients">
-
+                                       placeholder="Search in table">
                                 <table class="footable table table-stripped" data-page-size="8" data-filter=#filter>
                                     <thead>
                                     <tr>
-                                        <th>Patient ID</th>
+                                        <th>MRN</th>
                                         <th>Name</th>
-                                        <th>Gender</th>
-                                        <th data-hide="phone,tablet">Age</th>
-                                        <th data-hide="phone,tablet">Email</th>
-                                        <th data-hide="phone,tablet">Contact</th>
-                                        <th data-hide="phone,tablet">Address</th>
-                                        <th data-hide="phone,tablet">Actions</th>
-
+                                        <th>Email</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
-                                    <tr class="gradeA">
-
-                                        <td> 1234567</td>
-                                        <td>Patient 1</td>
-                                        <td>Male</td>
-                                        <td>30</td>
-                                        <td class="center">test@test.com</td>
-                                        <td class="center">0412345678</td>
-                                        <td class="center">Nieuwelaan 149, 1040 Etterbeek</td>
-                                        <td class="center">
-                                            <button class="btn btn-info btn-circle" type="button"><i class="fa fa-eye"></i></button>
-                                            <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-edit"></i></button>
-                                            <button class="btn btn-danger btn-circle" type="button"><i class="fa fa-trash"></i></button>
+                                    <tbody>
+                                    @foreach($prescriptions as $prescription)
+                                        <tr>
+                                            <td>{{ $prescription->patient->mrn }}</td>
+                                            <td>{{ $prescription->patient->user->name }}</td>
+                                            <td>{{ $prescription->patient->user->email }}</td>
+                                            <td>{{ $prescription->created_at }}</td>
+                                            <td class="center">
+                                                <a href="{{ route('patient_prescription_view', ['id' =>$prescription->patient->user->id]) }}"
+                                                   class="btn btn-info btn-circle" type="button">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('prescribe_medicine_to_existing_patient', ["id" => $prescription->patient->user->id]) }}"
+                                                   class="btn btn-warning btn-circle" type="button">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination float-right"></ul>
                                         </td>
                                     </tr>
-
-
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

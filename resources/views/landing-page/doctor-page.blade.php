@@ -31,7 +31,7 @@
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>Find a Doctor</h1>
-                        <button class="btn btn-primary btn-lg">View all Doctors</button>
+                        <a href="{{ url('/find-a-doctor') }}" class="btn btn-primary btn-lg">View all Doctors</a>
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
@@ -55,6 +55,7 @@
                         <div class="input-group m-b">
                             <select name="s_location" id="s_location" style="height: 36px;"
                                     class="select2_location form-control">
+                                <option value="">--- Select Area ---</option>
                                 @foreach($municipalities as $municipality)
                                     <option
                                         value="{{ $municipality['zip'] }}">{{ $municipality['zip'] . ', ' . $municipality['city']}}</option>
@@ -85,6 +86,7 @@
                         <div class="input-group m-b">
                             <select name="s_service" id="s_service" style="height: 36px;"
                                     class="select2_service form-control">
+                                <option value="">--- Select Service ---</option>
                                 @foreach($categories as $category)
                                     <option
                                         value="{{ $category->name }}">{{ $category->name }}</option>
@@ -134,11 +136,11 @@
         </div>
         <hr>
         <div class="row d-none" id="grid-view">
-
+            @include('landing-page/search_doctors_grid_result', ['result' => $doctors])
         </div>
         <div class="row" id="list-view">
             <div class="col-md-6 doctor-list">
-
+                @include('landing-page/search_doctors_result', ['result' => $doctors])
             </div>
             <div class="col-md-6">
                 <div id="map"></div>
@@ -177,18 +179,13 @@
                         }
                     },
                     success: function (result) {
-                        const response = result.slice(2);
-                        console.log(response);
-                        $(".doctor-list").html(response.list.slice(2))
-                        $("#grid-view").html(response.grid.slice(2))
+                        $(".doctor-list").html(result.list)
+                        $("#grid-view").html(result.grid)
                     },
                     error: function (result) {
                         console.log(result);
                     },
                     complete: function (result) {
-                        const response = JSON.parse(result.responseText.slice(2));
-                        $(".doctor-list").html(response.list)
-                        $("#grid-view").html(response.grid)
                     }
                 })
             });

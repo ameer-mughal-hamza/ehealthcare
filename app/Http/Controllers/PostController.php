@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\False_;
 
 class PostController extends Controller
 {
@@ -26,10 +28,11 @@ class PostController extends Controller
         ])->where('id', $id)->first();
 
         $display = [
-            'title' => '',
-            'post' => $post
+            'title' => 'Post | ' . Str::limit($post->description, 55),
+            'post' => $post,
+            'authUser' => auth()->check() ? auth()->user() : false
         ];
 
-        return view('admin/posts/show')->with($display);
+        return view('landing-page/posts/show')->with($display);
     }
 }

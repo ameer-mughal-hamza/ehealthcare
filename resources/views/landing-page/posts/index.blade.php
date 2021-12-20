@@ -14,7 +14,6 @@
 <div class="container" style="margin-top: 75px;">
     <div id="app" class="row">
         <example-component></example-component>
-
     </div>
 </div>
 @include('landing-page.footer')

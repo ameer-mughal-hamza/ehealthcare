@@ -1,7 +1,10 @@
-'<?php
+<?php
 
 use App\Http\Services\DoctorService;
 use App\Http\Services\LocationService;
+use App\Models\Review;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -62,14 +65,20 @@ Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'check_doctor']], f
     Route::get('prescriptions', "Doctor\PatientController@index")->name('view_all_prescriptions');
     Route::get('add/new/patient', "Doctor\PatientController@showAddNewPatientForm")->name('doctor_add_new_patient');
     Route::post('add/new/patient', "Doctor\PatientController@addNewPatient")->name('doctor_prescribe_medicine');
-    Route::get('/prescribe/medicine', "Doctor\PatientController@prescribeMedicine");
+    Route::get('/prescribe/medicine/{id}', "Doctor\PatientController@prescribeMedicine")->name('prescribe_medicine_to_existing_patient');
 
-    Route::get('account-settings', "DoctorController@profile");
-    Route::post('account-settings', "DoctorController@updateProfile")->name('doctor_update_profile');
-//    Route::get('prescriptions', "DoctorController@showPatients");
-    Route::get('change-password', "DoctorController@password")->name('patient_change_password');;
-    Route::post('change-password', "DoctorController@updatePassword")->name('patient_update_password');;
+    Route::get('/patient/detail/{id}', "Doctor\PatientController@show")->name('show_patient_detail_to_doctor');
+    Route::get('/patient/prescription/{id}', "Doctor\PatientController@showPrescription")->name('show_patient_prescription');
+
+    Route::get('account-settings', "DoctorController@showAccountSettingsForm");
+    Route::post('account-settings', "DoctorController@submitAccountSettingsForm")->name('doctor_update_profile');
+    Route::get('change-password', "Doctor\ProfileController@showChangePasswordForm")->name('doctor_change_password');;
+    Route::post('change-password', "Doctor\ProfileController@submitChangePasswordForm")->name('doctor_update_password');;
 });
+
+Route::get('/print/prescription/{id}', "Doctor\PatientController@printPrescription")
+    ->name("print_invoice")
+    ->middleware('auth');
 
 // , 'middleware' => ['auth', 'email_verified']
 // Routes for Patients
@@ -77,13 +86,13 @@ Route::group(['prefix' => 'patient'], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', "PatientController@index");
 
-    Route::get('prescriptions', "PatientController@showPrescriptions")->name('patient_profile');
-    Route::get('prescriptions/view/1', "PatientController@showPrescriptionsDetail")->name('patient_profile');
+    Route::get('prescriptions', "Patient\PrescriptionController@index")->name('patient_profile');
+    Route::get('prescription/view/{id}', "Patient\PrescriptionController@show")->name('patient_prescription_view');
 
-    Route::get('profile', "PatientController@changePassword")->name('patient_profile');
-    Route::post('profile', "PatientController@changePassword")->name('updatepatient_profile');
-    Route::get('change-password', "PatientController@changePassword")->name('patient_change_password');
-    Route::post('change-password', "PatientController@updatePassword")->name('patient_update_password');
+    Route::get('account-settings', "Patient\ProfileController@showAccountSettingsForm")->name('patient_profile');
+    Route::post('account-settings', "Patient\ProfileController@submitAccountSettingsForm")->name('update_patient_profile');
+    Route::get('change-password', "Patient\ProfileController@showChangePasswordForm")->name('patient_change_password');
+    Route::post('change-password', "Patient\ProfileController@submitChangePasswordForm")->name('patient_update_password');
 });
 //
 
@@ -114,29 +123,46 @@ Route::group(['prefix' => '/'], function () {
 
     Route::get('become-a-doctor', "DoctorController@becomeADoctor");
     Route::post('become-a-doctor', "DoctorController@saveDoctor")->name('front_save_doctor');
+    Route::post("/review/submit", function (Request $request) {
+        $review = new Review();
+
+        $review->doctor_id = $request->doctor_id;
+        $review->patient_id = auth()->user()->id;
+        $review->rating = $request->rating;
+        $review->description = $request->description;
+        $review->save();
+
+        return redirect()->back();
+    })->name('submit_review');
 });
 
-Route::group(['prefix' => '/', 'middleware' => ['auth']], function () {
-    //All the routes that belongs to the landing page goes here
+Route::group(['prefix' => '/'], function () {
     Route::get('doctor-detail/{id}', "DoctorController@index");
+});
 
+Route::get('find-a-doctor', function (LocationService $locationService, DoctorService $doctorService) {
+    $doctors = User::with([
+        'doctor',
+        'doctor.user',
+        'address',
+        'categories'
+    ])->where([
+        'role' => 2
+    ])->get();
 
-    Route::get('find-a-doctor', function (LocationService $locationService, DoctorService $doctorService) {
-        return view('landing-page/doctor-page')->with([
-            'title' => 'Search Doctor',
-            'municipalities' => $locationService->getMunicipalities(),
-            'categories' => $doctorService->getCategories(),
-        ]);
-    });
+    return view('landing-page/doctor-page')->with([
+        'title' => 'Search Doctor',
+        'municipalities' => $locationService->getMunicipalities(),
+        'categories' => $doctorService->getCategories(),
+        'doctors' => $doctors
+    ]);
 });
 
 Route::get('/post', function () {
     return view('landing-page/posts/index')->with(['title' => 'Posts']);
 });
 
-Route::get('/post/1', function () {
-    return view('landing-page/posts/show')->with(['title' => 'Posts']);
-});
+Route::get('/post/{id}', "PostController@show");
 
 Route::get('/get-user', function () {
     DB::enableQueryLog();

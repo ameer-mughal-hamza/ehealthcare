@@ -15,35 +15,34 @@ class BlogController extends Controller
 {
     public function index()
     {
-        return Post::with(['user', 'comments', 'comments.user'])->get();
+        return Post::with(['user', 'comments', 'comments.user'])->get()->map(function ($query) {
+            $query->setRelation('comments', $query->comments->take(3));
+            return $query;
+        });
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'comment' => 'required|max:3'
+        $request->validate([
+            'comment' => 'required|max:5000'
         ]);
+
         $comment = new Comment;
         $comment->description = $request->get('comment');
-        $comment->user()->associate(1);
-        $post = Post::find($request->get('post_id'));
+        $comment->user()->associate(User::find(4));
+        $post = Post::find($request->post_id);
         $post->comments()->save($comment);
 
-        event(new PostEvent($request->get('comment'), User::find(1)));
+        event(new PostEvent($comment));
 
         return $comment;
     }
 
     public function show($slug)
     {
-//        $post = Post::with(['user', 'comments', 'comments.user'])->where([
-//            'id' => $slug
-//        ])->first();
-//        dd($post);
         return Post::with(['user', 'comments', 'comments.user'])->where([
             'id' => $slug
         ])->first();
-//        return Post::active()->where('slug', $slug)->first();
     }
 
     public function update(Request $request, $id)
