@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center m-t-lg m-b-lg">
                     <p>
-                        <strong>&copy; 2015 Company Name</strong><br />
+                        <strong>&copy; 2021 EHealth Care</strong><br />
                         consectetur adipisicing elit. Aut eaque, laboriosam veritatis,
                         quos non quis ad perspiciatis, totam corporis ea, alias ut unde.
                     </p>

@@ -2,11 +2,12 @@
     <div class="col-lg-12 mt90">
         <div class="ibox">
             <div class="text-center">
-                    <textarea name="post" placeholder="What's on your mind?" class="form-control" id="post" cols="30"
+                    <textarea name="post" v-model="description" placeholder="What's on your mind?" class="form-control"
+                              id="post" cols="30"
                               rows="5"></textarea>
             </div>
             <div class="text-right">
-                <button class="mt-2 btn btn-primary">Post!</button>
+                <button @click="submitPost" class="mt-2 btn btn-primary">Post!</button>
             </div>
         </div>
         <div v-for="post in posts">
@@ -55,6 +56,7 @@
 
 <script>
 export default {
+    props: ['user'],
     mounted() {
         this.fetchPosts();
     },
@@ -62,7 +64,8 @@ export default {
         return {
             posts: [],
             comment: "",
-            errors: {}
+            errors: {},
+            description: ""
         }
     },
     methods: {
@@ -71,8 +74,20 @@ export default {
                 this.posts = response.data;
             });
         },
+        submitPost() {
+            const user_id = JSON.parse(this.user).id;
+            axios.post('api/post/submit', {
+                description: this.description,
+                user_id: user_id
+            }).then(response => {
+                this.posts.push(response.data);
+                console.log(this.posts);
+                this.description = "";
+            }).catch(error => {
+                window.location.reload;
+            });
+        },
         postComment(post_id) {
-            console.log(this.comment);
             this.errors = {};
             axios.post('api/blogs', {
                 post_id: post_id,

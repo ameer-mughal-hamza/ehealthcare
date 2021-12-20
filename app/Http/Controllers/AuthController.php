@@ -85,7 +85,7 @@ class AuthController extends Controller
         foreach ($fields as $field) {
             switch ($field) {
                 case 'role':
-                    $user[$field] = 1;
+                    $user[$field] = 3;
                     break;
 
                 case 'password':
