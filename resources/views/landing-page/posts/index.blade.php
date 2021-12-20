@@ -11,12 +11,12 @@
 @endsection
 
 @section('content')
-<div class="container" style="margin-top: 75px;">
-    <div id="app" class="row">
-        <example-component></example-component>
+    <div class="container" style="margin-top: 75px;">
+        <div id="app" class="row">
+            <example-component user='@json(Auth::user())'></example-component>
+        </div>
     </div>
-</div>
-@include('landing-page.footer')
+    @include('landing-page.footer')
 @endsection
 
 @section('landing-js')

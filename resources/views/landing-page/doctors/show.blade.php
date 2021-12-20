@@ -96,16 +96,14 @@
                         <a>
                             <img alt="image" class="rounded-circle" src="http://localhost:8000/img/landing/avatar2.jpg">
                             <h3 class="m-b-xs"><strong>{{ $similar_doctor->name }}</strong></h3>
-                            <div class="font-bold">Graphics designer</div>
                             <address class="m-t-md">
-                                <strong>Twitter, Inc.</strong><br>
                                 {!! $similar_doctor->address->street . ", " . $similar_doctor->address->postal_code . " " . $similar_doctor->address->muncipility . ", <br>" . $similar_doctor->address->city . ", " . $similar_doctor->address->country !!}
                                 <br><abbr title="Phone">P:</abbr> {{ $similar_doctor->doctor->mobile }}
                             </address>
                         </a>
                         <div class="contact-box-footer">
                             <div class="m-t-xs btn-group">
-                                <a href="{{ url('/doctor/detail/'. $similar_doctor->id) }}"
+                                <a href="{{ url('/doctor-detail/'. $similar_doctor->id) }}"
                                    class="btn btn-xs btn-white">View Details</a>
                             </div>
                         </div>

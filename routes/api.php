@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Medicine;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -70,6 +71,18 @@ Route::post("/search-doctor", "DoctorController@searchDoctor");
 Route::apiResource('/blogs', "Api\BlogController");
 Route::get('/prescription/{id}', function ($id) {
     return Medicine::where('id', $id)->first();
+});
+
+Route::post('/post/submit', function (Request $request) {
+    $post = new \App\Models\Post();
+
+    $post->description = $request->description;
+    $post->user_id = $request->user_id;
+    $post->save();
+
+    return response()->json([
+        'data' => Post::with(['user', 'comments'])->where('id', $post->id)->first()
+    ]);
 });
 
 Route::get('/medicines', function () {

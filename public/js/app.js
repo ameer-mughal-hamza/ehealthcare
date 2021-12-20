@@ -1963,7 +1963,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   mounted: function mounted() {
     this.fetchPosts();
   },
@@ -1971,7 +1973,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       posts: [],
       comment: "",
-      errors: {}
+      errors: {},
+      description: ""
     };
   },
   methods: {
@@ -1982,21 +1985,36 @@ __webpack_require__.r(__webpack_exports__);
         _this.posts = response.data;
       });
     },
-    postComment: function postComment(post_id) {
+    submitPost: function submitPost() {
       var _this2 = this;
 
-      console.log(this.comment);
+      var user_id = JSON.parse(this.user).id;
+      axios.post('api/post/submit', {
+        description: this.description,
+        user_id: user_id
+      }).then(function (response) {
+        _this2.posts.push(response.data);
+
+        console.log(_this2.posts);
+        _this2.description = "";
+      })["catch"](function (error) {
+        window.location.reload;
+      });
+    },
+    postComment: function postComment(post_id) {
+      var _this3 = this;
+
       this.errors = {};
       axios.post('api/blogs', {
         post_id: post_id,
         comment: this.comment
       }).then(function (response) {
-        _this2.comment = "";
+        _this3.comment = "";
 
-        _this2.posts.comments.push(response.data);
+        _this3.posts.comments.push(response.data);
       })["catch"](function (error) {
         if (error.response.status === 422) {
-          _this2.errors = error.response.data.errors || {};
+          _this3.errors = error.response.data.errors || {};
         }
       });
     }
@@ -44808,13 +44826,54 @@ var render = function () {
     "div",
     { staticClass: "col-lg-12 mt90" },
     [
-      _vm._m(0),
+      _c("div", { staticClass: "ibox" }, [
+        _c("div", { staticClass: "text-center" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.description,
+                expression: "description",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: {
+              name: "post",
+              placeholder: "What's on your mind?",
+              id: "post",
+              cols: "30",
+              rows: "5",
+            },
+            domProps: { value: _vm.description },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.description = $event.target.value
+              },
+            },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-right" }, [
+          _c(
+            "button",
+            {
+              staticClass: "mt-2 btn btn-primary",
+              on: { click: _vm.submitPost },
+            },
+            [_vm._v("Post!")]
+          ),
+        ]),
+      ]),
       _vm._v(" "),
       _vm._l(_vm.posts, function (post) {
         return _c("div", [
           _c("div", { staticClass: "social-feed-box" }, [
             _c("div", { staticClass: "social-avatar" }, [
-              _vm._m(1, true),
+              _vm._m(0, true),
               _vm._v(" "),
               _c("div", { staticClass: "media-body" }, [
                 _c("h4", [_vm._v(_vm._s(post.user.name))]),
@@ -44844,7 +44903,7 @@ var render = function () {
                   { staticClass: "social-footer" },
                   _vm._l(post.comments, function (comment) {
                     return _c("div", { staticClass: "social-comment" }, [
-                      _vm._m(2, true),
+                      _vm._m(1, true),
                       _vm._v(" "),
                       _c("div", { staticClass: "media-body" }, [
                         _c(
@@ -44876,31 +44935,6 @@ var render = function () {
   )
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "ibox" }, [
-      _c("div", { staticClass: "text-center" }, [
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: {
-            name: "post",
-            placeholder: "What's on your mind?",
-            id: "post",
-            cols: "30",
-            rows: "5",
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-right" }, [
-        _c("button", { staticClass: "mt-2 btn btn-primary" }, [
-          _vm._v("Post!"),
-        ]),
-      ]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

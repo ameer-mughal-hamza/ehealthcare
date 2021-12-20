@@ -18,11 +18,31 @@
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/find-a-doctor') }}">Find a Doctor</a>
                     </li>
-                    <li>
-                        <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
-                    </li>
+                    @if(!auth()->check())
+                        <li>
+                            <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
+                        </li>
+                    @endif
+                    @if(auth()->check())
+                        @if(auth()->user()->role === '1')
+                            <li>
+                                <a class="nav-link page-scroll" href="{{ url('admin/dashboard') }}">Dashboard</a>
+                            </li>
+                        @elseif(auth()->user()->role === '2')
+                            <li>
+                                <a class="nav-link page-scroll" href="{{ url('doctor/dashboard') }}">Dashboard</a>
+                            </li>
+                        @else
+                            <li>
+                                <a class="nav-link page-scroll" href="{{ url('patient/dashboard') }}">Dashboard</a>
+                            </li>
+                        @endif
+                    @endif
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>
+                    </li>
+                    <li>
+                        <a class="nav-link page-scroll" href="{{ url('/post') }}">Posts</a>
                     </li>
                     @if(!auth()->check())
                         <li>
