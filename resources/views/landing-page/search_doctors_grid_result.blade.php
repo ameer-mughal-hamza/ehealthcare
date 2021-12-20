@@ -16,8 +16,8 @@
             </a>
             <div class="contact-box-footer">
                 <div class="m-t-xs btn-group">
-                    <a href="" class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call</a>
-                    <a href="" class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> Email</a>
+                    <a href="{{ url('doctor-detail' . $r->id}}) }}" class="btn btn-xs btn-white"><i
+                            class="fa fa-phone"></i> View Details</a>
                 </div>
             </div>
         </div>
