@@ -20,7 +20,7 @@
                             @csrf
                             <div class="form-group">
                                 <input name="mrn" type="text" value="{{ old('mrn') }}" class="form-control"
-                                       placeholder="Username"
+                                       placeholder="MRN"
                                        required>
                             </div>
                             <div class="form-group">

@@ -21,12 +21,12 @@
                 <a href="{{ url('/doctor/prescriptions') }}"><i class="fa fa-file"></i> <span
                         class="nav-label">Patients</span></a>
             </li>
-            <li class="{{ (request()->is('doctor/account-settings')) ? 'active' : '' }}">
-                <a href="{{ url('/doctor/account-settings') }}">
-                    <i class="fa fa-user-circle"></i>
-                    <span class="nav-label">Profile</span>
-                </a>
-            </li>
+{{--            <li class="{{ (request()->is('doctor/account-settings')) ? 'active' : '' }}">--}}
+{{--                <a href="{{ url('/doctor/account-settings') }}">--}}
+{{--                    <i class="fa fa-user-circle"></i>--}}
+{{--                    <span class="nav-label">Profile</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             <li class="{{ (request()->is('doctor/change-password')) ? 'active' : '' }}">
                 <a href="{{ url('/doctor/change-password') }}">
                     <i class="fa fa-lock"></i>
