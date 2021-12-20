@@ -15,28 +15,28 @@
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
                 <div class="container">
-                    <div class="carousel-caption">
+                    <div class="carousel-caption blank">
                         <h1>
-                            E Health Care
+                            FIND ANY DOCTOR
                         </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing.</p>
+                        <p>A platform to find all the doctors with different specializations according to your need with just a single click. Find a doctor by name, location or specialization.</p>
                         <p>
                             <a class="btn btn-lg btn-primary" href="#" role="button"
-                            >READ MORE</a
+                            >Learn more</a
                             >
                         </p>
                     </div>
                 </div>
                 <!-- Set background for slide in css -->
-                <div class="header-back one"></div>
+                <div class="header-back two"></div>
             </div>
             <div class="carousel-item">
                 <div class="container">
                     <div class="carousel-caption blank">
                         <h1>
-                            Lorem Ipsum
+                            FIND ANY DOCTOR
                         </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                        <p>A platform to find all the doctors with different specializations according to your need with just a single click. Find a doctor by name, location or specialization.</p>
                         <p>
                             <a class="btn btn-lg btn-primary" href="#" role="button"
                             >Learn more</a
@@ -79,8 +79,8 @@
                     map-based search functionality</p>
             </div>
             <div class="col-sm-4">
-                <h2>Lorem Ipsum</h2>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                <h2>Simplify Routine Checkups</h2>
+                <p>Using our platform you can easily manage all your prescriptions and medical history at one place for quick access in future. See all of your previous doctor visits, prescribed medicines and diagnosis at a glance.</p>
             </div>
         </div>
     </section>

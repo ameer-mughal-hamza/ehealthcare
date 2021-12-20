@@ -13,25 +13,24 @@
             <div class="row m-b-lg justify-content-center">
                 <div class="col-lg-3">
                     <address>
-                        <strong><span class="navy">Company name, Inc.</span></strong
+                        <strong><span class="navy">EHealth Care</span></strong
                         ><br />
-                        795 Folsom Ave, Suite 600<br />
-                        San Francisco, CA 94107<br />
-                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                        Vrije Universiteit Brussels<br />
+                        Etterbeek, Belgium<br />
+                        <abbr title="Phone">P:</abbr> 0465236409
                     </address>
                 </div>
                 <div class="col-lg-4">
                     <p class="text-color">
-                        Consectetur adipisicing elit. Aut eaque, totam corporis laboriosam
-                        veritatis quis ad perspiciatis, totam corporis laboriosam
-                        veritatis, consectetur adipisicing elit quos non quis ad
-                        perspiciatis, totam corporis ea,
+                        If you have any questions or queries a member of staff will
+                        always be happy to help. Feel free to contact us by telephone or email
+                        and we will be sure to get back to you as soon as possible.
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <a href="mailto:test@email.com" class="btn btn-primary"
+                    <a href="{{ url('/contact') }}" class="btn btn-primary"
                     >Send us mail</a
                     >
                     <p class="m-t-sm">Or follow us on social platform</p>
@@ -52,8 +51,7 @@
                 <div class="col-lg-12 text-center m-t-lg m-b-lg">
                     <p>
                         <strong>&copy; 2021 EHealth Care</strong><br />
-                        consectetur adipisicing elit. Aut eaque, laboriosam veritatis,
-                        quos non quis ad perspiciatis, totam corporis ea, alias ut unde.
+                        EHealth Care
                     </p>
                 </div>
             </div>

@@ -113,7 +113,7 @@
                             <span style="margin-left: 15px">By Name</span>
                         </h1>
                         <div class="input-group m-b">
-                            <input type="text" name="s_name" id="s_name" class="form-control "/>
+                            <input type="text" name="s_name" placeholder="Search by name" id="s_name" class="form-control "/>
                             <span class="input-group-prepend">
                                 <button type="button" class="btn btn-primary search">
                                     <i class="fa fa-search"></i>
