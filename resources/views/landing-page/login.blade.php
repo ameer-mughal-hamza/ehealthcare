@@ -34,7 +34,7 @@
         <form method="post" class="m-t" role="form" action="{{ url('/login') }}">
             @csrf
             <div class="form-group">
-                <input name="email" type="email" value="{{ old('email') }}" class="form-control" placeholder="Username"
+                <input name="email" type="email" value="{{ old('email') }}" class="form-control" placeholder="Email"
                        required>
             </div>
             <div class="form-group">
