@@ -159,7 +159,7 @@ class DoctorController extends Controller
             'postal_code' => 'required',
             'city' => 'required',
             'street' => 'required',
-            'image' => 'required|max:10000',
+//            'image' => 'required|max:10000',
             'gender' => 'required',
             'description' => 'required|max:5000'
         ]);
@@ -189,18 +189,18 @@ class DoctorController extends Controller
         $user->role = 2;
         $user->save();
 
-        if ($user) {
-            $originalImage = $request->file('file');
-            $thumbnailImage = Image::make($originalImage);
-            $dir_path = public_path('/profile_images/' . 31);
-            if (!is_dir($dir_path)) {
-                mkdir(public_path('/profile_images/' . 31));
-            }
-
-            $originalPath = public_path() . '/profile_images/' . $user->id . '/' . time() . '.' . $originalImage->getClientOriginalExtension();
-            $thumbnailImage->save($originalPath);
-            $doctor->picture_url = $originalImage;
-        }
+//        if ($user) {
+//            $originalImage = $request->file('file');
+//            $thumbnailImage = Image::make($originalImage);
+//            $dir_path = public_path('/profile_images/' . 31);
+//            if (!is_dir($dir_path)) {
+//                mkdir(public_path('/profile_images/' . 31));
+//            }
+//
+//            $originalPath = public_path() . '/profile_images/' . $user->id . '/' . time() . '.' . $originalImage->getClientOriginalExtension();
+//            $thumbnailImage->save($originalPath);
+//            $doctor->picture_url = $originalImage;
+//        }
 
         $user->categories()->attach($request->categories);
         $user->doctor()->save($doctor);
@@ -221,7 +221,6 @@ class DoctorController extends Controller
             session()->flash('verify_account_email', $user->email);
         }
 
-//         First save user then
         return redirect()->back();
     }
 

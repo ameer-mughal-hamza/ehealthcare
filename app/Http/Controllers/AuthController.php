@@ -103,7 +103,7 @@ class AuthController extends Controller
             $user->save();
             $user->patient()->save($patient);
             $config = [
-                'url' => "account-verification/$token"
+                'url' => url("account-verification/" . $token)
             ];
 
             $user->notify(new WelcomeEmailNotification($config));

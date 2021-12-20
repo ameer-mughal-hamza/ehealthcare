@@ -1,7 +1,7 @@
 @foreach($result as $r)
     <div class="col-lg-4">
         <div class="contact-box center-version">
-            <a href="{{ url('/doctor-find/1') }}">
+            <a href="{{ url('/doctor-detail/' . $r->id) }}">
                 <img
                     alt="image"
                     class="rounded-circle"

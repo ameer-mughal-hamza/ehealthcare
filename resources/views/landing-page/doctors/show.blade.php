@@ -43,6 +43,8 @@
                     @csrf
                     <div class="text-center">
                     <textarea name="description"
+                              required
+                              minlength="30"
                               placeholder="Review"
                               maxlength="255" cols="30"
                               rows="5" class="form-control"
