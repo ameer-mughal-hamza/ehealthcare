@@ -1,8 +1,5 @@
 <div class="navbar-wrapper">
-    <nav
-        class="navbar navbar-default navbar-fixed-top navbar-expand-md {{ $cssClass }}"
-        role="navigation"
-    >
+    <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md navbar-scroll" role="navigation">
         <div class="container">
             <a class="navbar-brand" href="{{ url('home') }}">E Health Care</a>
             <div class="navbar-header page-scroll">
@@ -20,6 +17,9 @@
                     <li><a class="nav-link page-scroll" href="{{ url('/home') }}">Home</a></li>
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/find-a-doctor') }}">Find a Doctor</a>
+                    </li>
+                    <li>
+                        <a class="nav-link page-scroll" href="{{ url('/become-a-doctor') }}">Become a Doctor</a>
                     </li>
                     <li>
                         <a class="nav-link page-scroll" href="{{ url('/contact') }}">Contact</a>

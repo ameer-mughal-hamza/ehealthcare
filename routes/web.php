@@ -2,15 +2,21 @@
 
 use App\Http\Services\DoctorService;
 use App\Http\Services\LocationService;
+use App\Models\Category;
 use App\Models\Review;
 use App\Models\User;
+use App\Notifications\ConfirmVerificationNotfication;
+use App\Notifications\ForgetPasswordNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 // Routes for ADMIN
-// , 'middleware' => ['auth', 'email_verified']
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_admin']], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', "Admin\AdminController@dashboard");
     Route::get('doctors/add', "Admin\DoctorController@showAddDoctor");
@@ -21,18 +27,28 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin/patient/add-patient');
     });
 
-    Route::get('view/category/all', "CategoryController@index");
+    Route::get('categories', "CategoryController@index")->name('category_index');
     Route::get('add/category', "CategoryController@add");
     Route::post('add/category', "CategoryController@create")->name('add_new_category');
     Route::get('edit/{slug}/category', "CategoryController@edit");
+    Route::post('edit/{slug}/category', "CategoryController@update")->name('update_category');
+    Route::get('category/{slug}/delete', function ($slug) {
+        $category = Category::where('slug', $slug)->first();
+        if ($category) {
+            $category->delete();
+            return redirect()->back()->with('success', 'Category deleted successfully.');
+        }
 
-    Route::get('view/medicine/all', "MedicineController@index")->name('medicine_index');
+        return redirect()->back()->with('error', 'There is something wrong with this request.');
+    })->name('delete_category');
+
+    Route::get('medicines', "MedicineController@index")->name('medicine_index');
     Route::get('add/medicine', "MedicineController@add");
     Route::post('add/medicine', "MedicineController@create")->name('add_new_medicine');
     Route::get('edit/{slug}/medicine', "MedicineController@edit");
     Route::post('update/{slug}/medicine', "MedicineController@update")->name('update_medicine');
 
-    Route::get('view/messages/all', "MessageController@index")->name('view_all_messages');
+    Route::get('messages', "MessageController@index")->name('view_all_messages');
     Route::get('view/message/{id}', "MessageController@show")->name('view_message');
     Route::get('delete/message/{id}', "MessageController@delete")->name('delete_message');
 
@@ -45,7 +61,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('approve-doctor/{id}', "Admin\DoctorController@approveDoctor")->name('approve_doctor_account');
 
-    Route::get('/doctors/view-all', "Admin\DoctorController@index");
+    Route::get('/doctors/view', "Admin\DoctorController@index");
 
     Route::get('/prescriptions', "Admin\PatientController@index");
     Route::get('/patient/detail/{id}', "Admin\PatientController@detail");
@@ -54,10 +70,6 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin/doctors/add-doctor');
     });
 });
-
-
-// Routes for Doctors
-// , 'middleware' => ['auth', 'email_verified']
 
 Route::group(['prefix' => 'doctor', 'middleware' => ['auth', 'check_doctor']], function () {
     //All the routes that belongs to the group goes here
@@ -82,7 +94,7 @@ Route::get('/print/prescription/{id}', "Doctor\PatientController@printPrescripti
 
 // , 'middleware' => ['auth', 'email_verified']
 // Routes for Patients
-Route::group(['prefix' => 'patient'], function () {
+Route::group(['prefix' => 'patient', 'middleware' => ['auth', 'check_patient']], function () {
     //All the routes that belongs to the group goes here
     Route::get('dashboard', "PatientController@index");
 
@@ -104,6 +116,7 @@ Route::group(['prefix' => '/'], function () {
     Route::post('register', "AuthController@register");
     Route::get('logout', "AuthController@logout");
     Route::get('contact', "ContactController@index");
+    Route::post('contact', "ContactController@contactUsSubmit");
 
     Route::get('/doctor-account-verification/{token}', "DoctorController@verifyDoctorAccount")->name('verify_doctor_account');
 
@@ -177,8 +190,61 @@ Route::get('/forget-password', function () {
     return view('landing-page/forget-password')->with(['title' => 'Forget password']);
 });
 
-Route::get('/reset-password', function () {
-    return view('landing-page/contact')->with(['title' => 'Reset password']);
+Route::post('/forget-password', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email|exists:users',
+    ]);
+
+    $token = Str::random(64);
+
+    DB::table('password_resets')->insert([
+        'email' => $request->email,
+        'token' => $token,
+        'created_at' => Carbon::now()
+    ]);
+
+    $display = [
+        'url' => url('reset-password/' . $token)
+    ];
+
+    $user = User::where('email', $request->email)->first();
+    $user->notify(new ForgetPasswordNotification($display));
+    return back()->with('message', 'We have e-mailed your password reset link!');
+});
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('landing-page/reset-password')->with([
+        'title' => 'Reset password',
+        'token' => $token
+    ]);
+});
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email|exists:users',
+        'password' => 'required|string|min:6|confirmed',
+        'password_confirmation' => 'required'
+    ]);
+
+
+    $updatePassword = DB::table('password_resets')
+        ->where([
+            'email' => $request->email,
+            'token' => $request->token
+        ])
+        ->first();
+
+    if (!$updatePassword) {
+        return back()->withInput()->with('error', 'Invalid token!');
+    }
+
+    $user = User::where('email', $request->email)->update([
+        'password' => Hash::make($request->password)
+    ]);
+
+    DB::table('password_resets')->where(['email' => $request->email])->delete();
+
+    return redirect('/login');
 });
 
 Route::middleware('checkUserRole')->get('/admin/doctors', function () {

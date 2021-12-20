@@ -24,6 +24,11 @@
                 <a href="{{ url('/home') }}">Go to home</a>
             </div>
         @endif
+        @if(Session::has('error'))
+            <div class="alert alert-danger alert-dismissible fade show">
+                {{ Session::get('error') }}
+            </div>
+        @endif
         <h1>Welcome to E Health Care</h1>
         <h3>Login</h3>
         <form method="post" class="m-t" role="form" action="{{ url('/login') }}">

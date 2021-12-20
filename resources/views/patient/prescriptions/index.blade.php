@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('patient/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
@@ -33,13 +34,9 @@
                                             <td>{{ $prescription->patient->user->email }}</td>
                                             <td>{{ $prescription->created_at }}</td>
                                             <td class="center">
-                                                <a href="{{ route('patient_prescription_view', ['id' =>$prescription->patient->user->id]) }}"
+                                                <a href="{{ route('patient_prescription_view', ['id' =>$prescription->id]) }}"
                                                    class="btn btn-info btn-circle" type="button">
                                                     <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('prescribe_medicine_to_existing_patient', ["id" => $prescription->patient->user->id]) }}"
-                                                   class="btn btn-warning btn-circle" type="button">
-                                                    <i class="fa fa-edit"></i>
                                                 </a>
                                             </td>
                                         </tr>

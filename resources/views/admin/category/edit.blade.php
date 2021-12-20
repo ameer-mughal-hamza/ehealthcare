@@ -8,7 +8,8 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
-            @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
+            @include('shared.top-nav')
+            @include('admin.shared.breadcrumbs', ['title' => 'Categories', 'page'=> 'Edit'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
@@ -19,7 +20,8 @@
                                 </h3>
                             </div>
                             <div class="ibox-content">
-                                <form method="get">
+                                <form method="POST" action="{{ route('update_category', $category->slug) }}">
+                                    @csrf
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-3">

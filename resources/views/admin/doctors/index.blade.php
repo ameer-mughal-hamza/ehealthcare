@@ -8,13 +8,12 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'View'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
-
-
                             <div class="ibox-content">
                                 <input type="text" class="form-control form-control-sm m-b-xs" id="filter"
                                        placeholder="Search in table">
@@ -45,10 +44,11 @@
                                             @endif
                                             <td>{{ $doctor->email }}</td>
                                             <td>
-                                                @for($i = 0; $i < 2; $i++)
+                                                @foreach($doctor->categories as $category)
+
                                                     <span
-                                                        class="label label-primary">{{ $doctor->categories[$i]->name }}</span>
-                                                @endfor
+                                                        class="label label-primary">{{ $category->name }}</span>
+                                                @endforeach
                                                 @if(count($doctor->categories) > 2)
                                                     <span
                                                         class="label label-primary">+{{ count($doctor->categories) - 2 }}</span>
@@ -56,7 +56,8 @@
                                             </td>
                                             <td class="center">{{ $doctor->doctor->mobile }}</td>
                                             <td class="center">
-                                                <a href="{{ url('/admin/doctors/detail/' . $doctor->id) }}" class="btn btn-info btn-circle" type="button"><i
+                                                <a href="{{ url('/admin/doctors/detail/' . $doctor->id) }}"
+                                                   class="btn btn-info btn-circle" type="button"><i
                                                         class="fa fa-eye"></i></a>
                                                 <button class="btn btn-warning btn-circle" type="button"><i
                                                         class="fa fa-edit"></i></button>

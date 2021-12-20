@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function __constructor()
+    {
+        if (\auth()->user()->check()) {
+            return redirect('/home');
+        }
+    }
+
     public function index()
     {
         $display = [
@@ -25,6 +32,10 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
         $input = $request->all();
 
         $this->validate($request, [
@@ -36,7 +47,7 @@ class AuthController extends Controller
         if (auth('web')->attempt(array($fieldType => $input['email'], 'password' => $input['password']))) {
             return redirect()->route('home');
         } else {
-            return redirect()->route('login')->with('error', 'Email-Address And Password Are Wrong.');
+            return redirect()->route('login')->with('error', 'Invalid login credentials.');
         }
     }
 
@@ -105,7 +116,6 @@ class AuthController extends Controller
 
     public function verify_account($token)
     {
-//        $token = \Request::segment(2);
         $decryptId = Crypt::decryptString($token);
 
         $user = User::where([

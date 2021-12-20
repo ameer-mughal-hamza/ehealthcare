@@ -16,6 +16,7 @@ class PrescriptionController extends Controller
         $medicine->doctor_id = $request->doctor_id;
         $medicine->patient_id = $request->user_id;
         $medicine->medicine = json_encode($request->prescriptions);
+        $medicine->remarks = $request->remarks;
         $medicine->save();
 
         $saved = false;

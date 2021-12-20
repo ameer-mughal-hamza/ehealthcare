@@ -8,9 +8,27 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
-            @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
-
+            @include('shared.top-nav')
+            @include('admin.shared.breadcrumbs', ['title' => 'Categories', 'page'=> 'All'])
             <div class="wrapper wrapper-content animated fadeInRight">
+                @if(Session::has('success'))
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{ Session::get('success') }}
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if(Session::has('error'))
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        {{ Session::get('error') }}
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-right">
@@ -40,10 +58,14 @@
                                             <td class="center">{{ $category->name }}</td>
                                             <td class="center">{{ $category->slug }}</td>
                                             <td class="center">
-                                                <button class="btn btn-warning btn-circle" type="button"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger btn-circle" type="button"><i
-                                                        class="fa fa-trash"></i></button>
+                                                <a href="{{ url('admin/edit/' .$category->slug.'/category') }}"
+                                                   class="btn btn-warning btn-circle" type="button">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="{{ route('delete_category', $category->slug) }}"
+                                                   class="btn btn-danger btn-circle"
+                                                   type="button">
+                                                    <i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

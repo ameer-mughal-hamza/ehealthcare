@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 @if(Session::has('not_found'))
@@ -55,7 +56,7 @@
                                                 <a href="{{ route('view_message', $message->id) }}" class="btn btn-success btn-circle">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a class="btn btn-warning btn-circle">
+                                                <a  class="btn btn-warning btn-circle">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="{{ route('delete_message', $message->id) }}" class="btn btn-danger btn-circle">

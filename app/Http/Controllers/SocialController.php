@@ -30,13 +30,13 @@ class SocialController extends Controller
                 $patient = new Patient();
                 $patient->mrn = getRandomMRN();
 
+
                 $newUser = new User();
-                if ($user->user->given_name && $user->user->family_name) {
-                    $newUser->first_name = $user->user->given_name;
-                    $newUser->last_name = $user->user->family_name;
+                if ($user->user['given_name'] && $user->user['family_name']) {
+                    $newUser->first_name = $user->user['given_name'];
+                    $newUser->last_name = $user->user['family_name'];
                 } else {
                     $name = preg_split('#\s+#', $user->name, 2);
-
                     $newUser->first_name = $name[0];
                     $newUser->last_name = $name[1];
                 }
@@ -52,7 +52,7 @@ class SocialController extends Controller
                 return redirect('/home');
             }
         } catch (Exception $e) {
-            return redirect('/home');
+            return redirect()->route('login')->with('error', 'Something went wrong, Please try again.');
         }
     }
 
@@ -90,7 +90,7 @@ class SocialController extends Controller
             }
 
         } catch (Exception $e) {
-            return redirect('/home');
+            return redirect()->route('login')->with('error', 'Something went wrong, Please try again.');
         }
     }
 }

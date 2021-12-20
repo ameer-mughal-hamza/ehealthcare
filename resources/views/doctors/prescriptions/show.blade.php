@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('doctors/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'Doctors'])
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row">
@@ -72,15 +73,17 @@
                                                    class="btn btn-info btn-circle" type="button">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-{{--                                                <a href="{{ route('show_patient_prescription', ['id' => $prescription->id]) }}"--}}
-{{--                                                   class="btn btn-success btn-circle" type="button">--}}
-{{--                                                    <i class="fa fa-eye"></i>--}}
-{{--                                                </a>--}}
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                    <tfoot></tfoot>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination float-right"></ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -92,4 +95,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin-js')
+    <script src="{{ asset('js/plugins/footable/footable.all.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.footable').footable();
+        });
+    </script>
 @endsection

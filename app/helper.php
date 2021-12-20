@@ -4,6 +4,8 @@ use App\Models\Blog;
 use App\Models\Doctor;
 use App\Models\Message;
 use App\Models\Patient;
+use App\Models\Post;
+use App\Models\Prescription;
 use Illuminate\Support\Facades\DB;
 
 function getTitle($title = '')
@@ -21,6 +23,29 @@ function getLatLonOfZipCode($postal_code)
         $response->list_lng,
         $response->list_lat
     ];
+}
+
+function getPatientTotalPrescriptions()
+{
+    $prescriptions = Prescription::with([
+        'doctor',
+        'doctor.user',
+        'patient',
+        'patient.user'
+    ])->whereHas('patient.user', function ($query) {
+        $query->where('user_id', auth()->user()->id);
+    })->get();
+
+    return $prescriptions->count();
+}
+
+function getTotalPosts()
+{
+    $posts = Post::where([
+        'user_id' => auth()->user()->id
+    ])->get();
+
+    return $posts->count();
 }
 
 function getTotalMessages()

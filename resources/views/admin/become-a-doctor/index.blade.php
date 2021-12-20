@@ -8,7 +8,8 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
-            @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'View'])
+            @include('shared.top-nav')
+            @include('admin.shared.breadcrumbs', ['title' => 'Doctors', 'page'=> 'Doctors'])
             @if(count($requests))
                 <div class="wrapper wrapper-content animated fadeInRight">
                     <div class="row">

@@ -3,10 +3,10 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" src="{{ asset('img/profile_small.jpg') }}"/>
+                    <img alt="image" class="rounded-circle" src="{{ asset('img/profile_small_thumbnail.jpg') }}"/>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="block m-t-xs font-bold">Ameer Hamza</span>
-                        <span class="text-muted text-xs block">Admin <b class="caret"></b></span>
+                        <span class="block m-t-xs font-bold">{{ auth()->user()->name }}</span>
+                        <span class="text-muted text-xs block">Patient </span>
                     </a>
                 </div>
                 <div class="logo-element">
@@ -20,12 +20,6 @@
             <li class="{{ (request()->is('patient/prescriptions/*') || request()->is('patient/prescription/*')) ? 'active' : '' }}">
                 <a href="{{ url('/patient/prescriptions') }}"><i class="fa fa-file"></i> <span
                         class="nav-label">Prescriptions</span></a>
-            </li>
-            <li class="{{ (request()->is('patient/account-settings')) ? 'active' : '' }}">
-                <a href="{{ url('patient/account-settings') }}">
-                    <i class="fa fa-user-circle"></i>
-                    <span class="nav-label">Profile</span>
-                </a>
             </li>
             <li class="{{ (request()->is('patient/account-settings')) ? 'active' : '' }}">
                 <a href="{{ url('/patient/change-password') }}">

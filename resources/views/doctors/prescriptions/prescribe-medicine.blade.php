@@ -8,6 +8,7 @@
     <div id="wrapper">
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg">
+            @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Prescription', 'page'=> 'Prescription Page'])
             <prescription-component user='@json($user)' doctor='@json(Auth::user())'></prescription-component>
         </div>
