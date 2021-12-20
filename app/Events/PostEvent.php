@@ -13,23 +13,14 @@ use Illuminate\Queue\SerializesModels;
 class PostEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $message, $user;
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct($message, $user)
+    public $obj;
+
+    public function __construct($obj)
     {
-        $this->message = $message;
-        $this->user = $user;
+        $this->obj = $obj;
+        $this->dontBroadcastToCurrentUser();
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
         return new PrivateChannel('post');

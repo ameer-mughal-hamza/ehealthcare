@@ -59,6 +59,11 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
+//    public function getAddressAttribute()
+//    {
+//        return "{$this->address->street}, {$this->address->postal_code} {$this->address->muncipility}, {$this->address->city}, {$this->address->country}";
+//    }
+
 //    public function getDateOfBirthAttribute()
 //    {
 //        return Carbon::parse($this->attributes['date_of_birth'])->age;

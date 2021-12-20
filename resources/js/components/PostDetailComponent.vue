@@ -1,12 +1,11 @@
 <template>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt90">
         <div class="social-feed-box">
             <div class="social-avatar">
                 <a href="" class="float-left">
                     <img alt="image" src="http://localhost:8000/img/a1.jpg"/>
                 </a>
                 <div class="media-body">
-                    <!--                    <a href="#">{{ post.user.name }}</a>-->
                     <small class="text-muted">{{ post.time }} - {{ post.date_created }}</small>
                 </div>
             </div>
@@ -14,15 +13,6 @@
                 <p>
                     {{ post.description }}
                 </p>
-
-                <div class="btn-group">
-                    <button class="btn btn-white btn-xs">
-                        <i class="fa fa-thumbs-up"></i> Like this!
-                    </button>
-                    <button class="btn btn-white btn-xs">
-                        <i class="fa fa-comments"></i> Comment
-                    </button>
-                </div>
             </div>
             <div class="social-footer">
                 <div class="social-comment" v-for="comment in post.comments">
@@ -30,14 +20,13 @@
                         <img alt="image" src="http://localhost:8000/img/a1.jpg"/>
                     </a>
                     <div class="media-body">
-                        <!--                        <a href="#">{{ comment.name }}</a>-->
+                        <a href="#" class="no-design">{{ comment.name }}</a>
+                        <br>
                         {{ comment.description }}
                         <br/>
-                        <a href="#" class="small"
-                        ><i class="fa fa-thumbs-up"></i> 26 Like this!</a
-                        >
-                        -
-                        <small class="text-muted">{{ comment.time }} - {{ comment.date_created }}</small>
+                        <small class="text-muted">
+                            {{ comment.time }} - {{ comment.date_created }}
+                        </small>
                     </div>
                 </div>
                 <div class="social-comment">
@@ -62,8 +51,15 @@
     </div>
 </template>
 
+<style>
+.mt90 {
+    margin-top: 90px !important;
+}
+</style>
+
 <script>
 export default {
+    props: ['user'],
     data() {
         return {
             post: {},
@@ -74,8 +70,10 @@ export default {
     },
     methods: {
         fetchPosts() {
-            axios.get('/api/blogs/1').then(response => {
-                this.post = JSON.parse(response.data.slice(2));
+            const url = new URL(window.location.href);
+            const url_param = url.pathname.split('/');
+            axios.get(`/api/blogs/${url_param[2]}`).then(response => {
+                this.post = response.data;
             });
         },
         postComment(post_id) {
@@ -84,25 +82,24 @@ export default {
                 post_id: post_id,
                 comment: this.comment
             }).then(response => {
+                console.log(this.post.comments);
+                console.log(response.data);
                 this.comment = "";
-                this.post.comments.push(JSON.parse(response.data.slice(2)))
+                this.post.comments.push(response.data);
+                console.log(this.post.comments);
             }).catch(error => {
-                const trimString = error.response.data.slice(2);
+                const trimString = error.response.data;
                 if (error.response.status === 422) {
-                    this.errors = JSON.parse(trimString).errors || {};
+                    this.errors = trimString.errors || {};
                 }
             });
-        },
+        }
     },
     mounted() {
         this.fetchPosts();
-        Echo.channel('post').listen('PostEvent', (e) => {
-            console.log(e.message);
+        Echo.private('post').listen('PostEvent', (e) => {
+            this.post.comments.push(e.obj);
         });
-
-        // Echo.private('post').listen('PostEvent', (e) => {
-        //     console.log(e.message);
-        // });
     }
 }
 </script>

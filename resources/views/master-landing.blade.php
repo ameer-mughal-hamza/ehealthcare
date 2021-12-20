@@ -96,61 +96,42 @@
     }
 
     function setupMap(center) {
+        let features;
+
         const map = new mapboxgl.Map({
             container: "map",
             style: "mapbox://styles/mapbox/streets-v11",
             center: center,
-            zoom: 15
+            zoom: 8
         })
-
         map.addControl(new mapboxgl.FullscreenControl());
 
-        const geojson = {
-            'type': 'FeatureCollection',
-            'features': [
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-77.032, 38.913]
-                    },
-                    'properties': {
-                        'title': 'Mapbox',
-                        'description': 'Washington, D.C.'
-                    }
-                },
-                {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-122.414, 37.776]
-                    },
-                    'properties': {
-                        'title': 'Mapbox',
-                        'description': 'San Francisco, California'
-                    }
+        $.ajax({
+            url: "/api/search-doctor/initial",
+            type: "POST",
+            success: function (result) {
+                let features = JSON.parse(result.data);
+                for (const feature of features.features) {
+                    // create a HTML element for each feature
+                    const el = document.createElement('div');
+                    el.className = 'marker';
+
+                    // make a marker for each feature and add to the map
+                    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(
+                        new mapboxgl.Popup({offset: 25}) // add popups
+                            .setHTML(
+                                `<h3 title="Name">${feature.properties.title}</h3><p title="Language">${feature.properties.language}</p><p title="Contact No">${feature.properties.mobile}</p><p title="Description">${feature.properties.description.substring(0,50)}</p>`
+                            )
+                    ).addTo(map);
                 }
-            ]
-        };
+            },
+            error: function (result) {
 
-        // add markers to map
-        setTimeout(() => {
-            for (const feature of geojson.features) {
-                // create a HTML element for each feature
-                const el = document.createElement('div');
-                el.className = 'marker';
+            },
+            complete: function (result) {
 
-                // make a marker for each feature and add to the map
-                new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).setPopup(
-                    new mapboxgl.Popup({offset: 25}) // add popups
-                        .setHTML(
-                            `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-                        )
-                ).addTo(map);
             }
-            console.log('reached');
-        }, 5000);
-
+        })
     }
 
     var cbpAnimatedHeader = (function () {

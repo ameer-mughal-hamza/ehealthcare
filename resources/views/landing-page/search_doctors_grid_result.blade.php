@@ -8,12 +8,10 @@
                     src="{{ url('img/landing/avatar2.jpg') }}"
                 />
                 <h3 class="m-b-xs"><strong>{{ $r->first_name . ' ' . $r->last_name}}</strong></h3>
-                <div class="font-bold">Graphics designer</div>
                 <address class="m-t-md">
-                    <strong>Twitter, Inc.</strong><br/>
-                    795 Folsom Ave, Suite 600<br/>
-                    San Francisco, CA 94107<br/>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    {!! $r->address->street . ", " . $r->address->postal_code . " " . $r->address->muncipility . ", <br>" . $r->address->city . ", " . $r->address->country !!}
+                    <br/>
+                    <abbr title="Phone">P:</abbr> {{ $r->doctor->mobile }}
                 </address>
             </a>
             <div class="contact-box-footer">

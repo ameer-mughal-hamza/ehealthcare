@@ -40,9 +40,14 @@
                                             <td>{{ $prescription->patient->user->name }}</td>
                                             <td>{{ $prescription->patient->user->email }}</td>
                                             <td class="center">
-                                                <a href="{{ url('/admin/doctors/detail/' . $prescription->id) }}"
-                                                   class="btn btn-info btn-circle" type="button"><i
-                                                        class="fa fa-eye"></i></a>
+                                                <a href="{{ url('doctor/patient/detail/'.$prescription->patient->user->id) }}"
+                                                   class="btn btn-info btn-circle" type="button">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('prescribe_medicine_to_existing_patient', ["id" => $prescription->patient->user->id]) }}"
+                                                   class="btn btn-warning btn-circle" type="button">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

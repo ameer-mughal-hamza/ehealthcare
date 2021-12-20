@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 class Post extends Model
 {
     protected $appends = ['time', 'date_created'];
+
     public function comments()
     {
         return $this->hasMany('App\Models\Comment');

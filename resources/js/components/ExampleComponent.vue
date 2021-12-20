@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-12">
+    <div class="col-lg-12 mt90">
         <div class="ibox">
             <div class="text-center">
                     <textarea name="post" placeholder="What's on your mind?" class="form-control" id="post" cols="30"
@@ -9,62 +9,31 @@
                 <button class="mt-2 btn btn-primary">Post!</button>
             </div>
         </div>
-        <div class="social-feed-box">
-            <div v-for="post in posts">
+        <div v-for="post in posts">
+            <div class="social-feed-box">
                 <div class="social-avatar">
                     <a href="" class="float-left">
                         <img alt="image" src="img/a1.jpg"/>
                     </a>
                     <div class="media-body">
-                        <a href="#">{{ post.user.name }}</a>
+                        <h4>{{ post.user.name }}</h4>
                         <small class="text-muted">{{ post.time }} - {{ post.date_created }}</small>
                     </div>
                 </div>
                 <div class="social-body">
                     <p>
-                        {{ post.description }}
+                        <a class="no-design" :href="`/post/${post.id}`">{{ post.description }}</a>
                     </p>
-
-                    <div class="btn-group">
-                        <button class="btn btn-white btn-xs">
-                            <i class="fa fa-thumbs-up"></i> Like this!
-                        </button>
-                        <button class="btn btn-white btn-xs">
-                            <i class="fa fa-comments"></i> Comment
-                        </button>
-                    </div>
                 </div>
-                <div class="social-footer">
+                <div class="social-footer" v-if="post.comments.length">
                     <div class="social-comment" v-for="comment in post.comments">
                         <a href="" class="float-left">
                             <img alt="image" src="img/a1.jpg"/>
                         </a>
                         <div class="media-body">
-                            <a href="#">{{ comment.name }}</a>
-                            {{ comment.description }}
-                            <br/>
-                            <a href="#" class="small"
-                            ><i class="fa fa-thumbs-up"></i> 26 Like this!</a
-                            >
-                            -
+                            <a href="#" class="no-design">{{ comment.name }}</a>
+                            <p>{{ comment.description }}</p>
                             <small class="text-muted">{{ comment.time }} - {{ comment.date_created }}</small>
-                        </div>
-                    </div>
-                    <div class="social-comment">
-                        <a href="" class="float-left">
-                            <img alt="image" src="img/a3.jpg"/>
-                        </a>
-                        <div class="media-body">
-                      <textarea
-                          id="comment" name="comment"
-                          v-model="comment"
-                          class="form-control"
-                          placeholder="Write comment..."
-                      ></textarea>
-                            <div v-if="errors && errors.message" class="text-danger">{{ errors.message[0] }}</div>
-                        </div>
-                        <div class="text-right">
-                            <button class="mt-2 btn btn-primary btn-xs" v-on:click="postComment(post.id)">Post!</button>
                         </div>
                     </div>
                 </div>
@@ -72,6 +41,17 @@
         </div>
     </div>
 </template>
+
+<style>
+.no-design {
+    text-decoration: none !important;
+    color: black;
+}
+
+.mt90 {
+    margin-top: 90px !important;
+}
+</style>
 
 <script>
 export default {
@@ -88,9 +68,7 @@ export default {
     methods: {
         fetchPosts() {
             axios.get('/api/blogs').then(response => {
-                console.log(JSON.parse(response.data.slice(2)));
-                this.posts = JSON.parse(response.data.slice(2));
-                console.log(this.posts)
+                this.posts = response.data;
             });
         },
         postComment(post_id) {
@@ -101,10 +79,7 @@ export default {
                 comment: this.comment
             }).then(response => {
                 this.comment = "";
-                console.log(JSON.parse(response.data.slice(2)));
-                console.log(this.posts);
-                console.log(this.posts.comments);
-                this.posts.comments.push(JSON.parse(response.data.slice(2)))
+                this.posts.comments.push(response.data)
             }).catch(error => {
                 if (error.response.status === 422) {
                     this.errors = error.response.data.errors || {};

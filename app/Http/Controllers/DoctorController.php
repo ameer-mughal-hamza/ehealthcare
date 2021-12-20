@@ -7,6 +7,7 @@ use App\Http\Services\LocationService;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\Doctor;
+use App\Models\Review;
 use App\Models\User;
 use App\Notifications\ConfirmVerificationNotfication;
 use App\Notifications\DoctorAccountVerifiedNotification;
@@ -38,14 +39,25 @@ class DoctorController extends Controller
 
     public function index($id)
     {
+        $reviews = Review::with(['user'])->where([
+            'doctor_id' => $id
+        ])->get();
+
         $doctor = User::whereHas('doctor', function ($q) {
             $q->where('is_active', 1);
-        })->with('doctor')->where([
+        })->with('doctor', 'categories')->where([
             'id' => $id
         ])->find($id);
 
+        $similar_doctors = User::with(['doctor', 'categories'])
+            ->whereHas('categories', function ($query) use ($doctor) {
+                $query->whereIn('category_id', [1]);
+            })->get();
+
         $display = [
             'doctor' => $doctor,
+            'reviews' => $reviews,
+            'similar_doctors' => $similar_doctors,
             'title' => getTitle('Login')
         ];
 
@@ -57,22 +69,24 @@ class DoctorController extends Controller
         $query = User::query();
         $query->with([
             'doctor',
+            'doctor.user',
             'address',
-            'categories',
-        ]);
+            'categories'
+        ])->where('role', '=', 2);
 
         if ($request->exists('payload')) {
             if ($request->payload['name']) {
                 $query->where('first_name', 'like', "%" . $request->payload['name'] . "%")
                     ->orWhere('last_name', 'like', "%" . $request->payload['name'] . "%");
             }
-            if ($request->payload['location']) {
+
+            if ($request->payload['location'] !== "" && $request->payload['location'] !== "--- Select Area ---") {
                 $query->whereHas('address', function ($q) use ($request) {
                     $q->where('muncipility', $request->payload['location']);
                 });
             }
 
-            if ($request->payload['service']) {
+            if ($request->payload['service'] !== "" && $request->payload['service'] !== "--- Select Service ---") {
                 $query->whereHas('categories', function ($q) use ($request) {
                     $q->where('categories.name', $request->payload['service']);
                 });

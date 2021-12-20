@@ -17,12 +17,12 @@
                 <a href="{{ url('/patient/dashboard') }}"><i class="fa fa-th-large"></i> <span
                         class="nav-label">Dashboards</span></a>
             </li>
-            <li class="{{ (request()->is('patient/prescriptions/*')) ? 'active' : '' }}">
+            <li class="{{ (request()->is('patient/prescriptions/*') || request()->is('patient/prescription/*')) ? 'active' : '' }}">
                 <a href="{{ url('/patient/prescriptions') }}"><i class="fa fa-file"></i> <span
                         class="nav-label">Prescriptions</span></a>
             </li>
             <li class="{{ (request()->is('patient/account-settings')) ? 'active' : '' }}">
-                <a href="{{ url('/admin') }}">
+                <a href="{{ url('patient/account-settings') }}">
                     <i class="fa fa-user-circle"></i>
                     <span class="nav-label">Profile</span>
                 </a>

@@ -11,6 +11,18 @@ function getTitle($title = '')
     return $title ? "E Health Care - {$title}" : "E Health Care";
 }
 
+function getLatLonOfZipCode($postal_code)
+{
+    $response = DB::table('zipcode_belgium')->where([
+        'list_zip' => $postal_code
+    ])->first();
+
+    return [
+        $response->list_lng,
+        $response->list_lat
+    ];
+}
+
 function getTotalMessages()
 {
     $messages = Message::all();
