@@ -17,30 +17,28 @@
                             <div class="ibox-title">
                                 <h5>Profile Detail</h5>
                             </div>
-                            <div>
-                                <div class="ibox-content profile-content">
-                                    <h4><strong>{{ $patient->patient->user->name }}</strong></h4>
-                                    <p><i class="fa fa-envelope"></i> {{ $patient->patient->user->email }} <span
-                                            class="label {{ $patient->patient->user->is_verified ? 'label-primary' : 'label-danger' }} ">{{ $patient->is_verified ? 'Verified' : 'Not Verified' }}</span>
-                                    </p>
-                                    <hr>
-                                    <div class="row m-t-lg">
-                                        <div class="col-md-4 text-center">
-                                            <h3>Posts</h3>
-                                            <h5><strong>169</strong></h5>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-                                            <h3>Role</h3>
-                                            <h5>
-                                                <strong>{{ $patient->patient->user->role === 1 ? 'Patient' : '' }}</strong>
-                                            </h5>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-                                            <h3>MRN</h3>
-                                            <h5>
-                                                <strong>{{ $patient->patient->mrn }}</strong>
-                                            </h5>
-                                        </div>
+                            <div class="ibox-content profile-content">
+                                <h4><strong>{{ $patient->name }}</strong></h4>
+                                <p><i class="fa fa-envelope"></i> {{ $patient->email }} <span
+                                        class="label {{ $patient->is_verified ? 'label-primary' : 'label-danger' }} ">{{ $patient->is_verified ? 'Verified' : 'Not Verified' }}</span>
+                                </p>
+                                <hr>
+                                <div class="row m-t-lg">
+                                    <div class="col-md-4 text-center">
+                                        <h3>Posts</h3>
+                                        <h5><strong>24</strong></h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h3>Role</h3>
+                                        <h5>
+                                            <strong>{{ $patient->role === 3 ? 'Patient' : '' }}</strong>
+                                        </h5>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h3>MRN</h3>
+                                        <h5>
+                                            <strong>{{ $prescriptions[0]->patient->mrn }}</strong>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +47,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    @if($patient->patient->user->posts->count())
+                    @if($patient->posts->count())
                         <div class="col-lg-6">
                             <div class="ibox ">
                                 <div class="ibox-title">
@@ -65,10 +63,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($patient->patient->user->posts as $post)
+                                        @foreach($patient->posts as $post)
                                             <tr>
                                                 <td>{{ $post->id }}</td>
                                                 <td>{{ $post->description }}</td>
+                                                <td class="center">
+                                                    <a href="{{ url('admin/edit/' .$category->slug.'/category') }}"
+                                                       class="btn btn-warning btn-circle" type="button">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -78,35 +82,41 @@
                             </div>
                         </div>
                     @endif
-{{--                    @if(($patient->count()))--}}
-{{--                        <div class="col-lg-6">--}}
-{{--                            <div class="ibox ">--}}
-{{--                                <div class="ibox-title">--}}
-{{--                                    <h5>Prescriptions</h5>--}}
-{{--                                </div>--}}
-{{--                                <div class="ibox-content">--}}
-{{--                                    <table class="table">--}}
-{{--                                        <thead>--}}
-{{--                                        <tr>--}}
-{{--                                            <th>ID</th>--}}
-{{--                                            <th>Medicine</th>--}}
-{{--                                            <th>Actions</th>--}}
-{{--                                        </tr>--}}
-{{--                                        </thead>--}}
-{{--                                        <tbody>--}}
-{{--                                        @foreach($patient as $post)--}}
-{{--                                            <tr>--}}
-{{--                                                <td>{{ $post->id }}</td>--}}
-{{--                                                <td>{{ Str::limit($post->medicine, 50) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                        @endforeach--}}
-{{--                                        </tbody>--}}
-{{--                                        <tfoot></tfoot>--}}
-{{--                                    </table>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
+                    @if(($prescriptions->count()))
+                        <div class="col-lg-6">
+                            <div class="ibox ">
+                                <div class="ibox-title">
+                                    <h5>Prescriptions</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Medicine</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($prescriptions as $prescription)
+                                            <tr>
+                                                <td>{{ $prescription->id }}</td>
+                                                <td>{{ Str::limit($prescription->medicine, 50) }}</td>
+                                                <td class="center">
+                                                    <a href="{{ url('/admin/patient/prescription/' . $prescription->id) }}"
+                                                       class="btn btn-warning btn-circle" type="button">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="row">
 

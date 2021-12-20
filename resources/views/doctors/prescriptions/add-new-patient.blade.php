@@ -8,7 +8,7 @@
 
 @section('content')
     <div id="wrapper">
-        @include('admin/nav')
+        @include('doctors/nav')
         <div id="page-wrapper" class="gray-bg">
             @include('shared.top-nav')
             @include('admin.shared.breadcrumbs', ['title' => 'Patients', 'page'=> 'Patients'])

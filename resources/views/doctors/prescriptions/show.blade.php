@@ -27,12 +27,12 @@
                                     <div class="row m-t-lg">
                                         <div class="col-md-4 text-center">
                                             <h3>Posts</h3>
-                                            <h5><strong>169</strong></h5>
+                                            <h5><strong>24</strong></h5>
                                         </div>
                                         <div class="col-md-4 text-center">
                                             <h3>Role</h3>
                                             <h5>
-                                                <strong>{{ $patient->role === 1 ? 'Patient' : '' }}</strong>
+                                                <strong>{{ $patient->role === 3 ? 'Patient' : '' }}</strong>
                                             </h5>
                                         </div>
                                         <div class="col-md-4 text-center">

@@ -64,6 +64,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'check_admin']], fun
     Route::get('/doctors/view', "Admin\DoctorController@index");
 
     Route::get('/prescriptions', "Admin\PatientController@index");
+    Route::get('/patient/prescription/{id}', "Admin\PatientController@showPrescription")->name('show_patient_prescription');
     Route::get('/patient/detail/{id}', "Admin\PatientController@detail");
 
     Route::get('add-doctor', function () {

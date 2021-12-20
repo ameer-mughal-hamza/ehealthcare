@@ -6,14 +6,50 @@
         @include('admin/nav')
         <div id="page-wrapper" class="gray-bg dashbard-1">
             @include('shared.top-nav')
+            <div class="row mt-5">
+                <div class="col-lg-2">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Patients</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ totalPatients() }}</h1>
+                            <small>Total</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Doctors</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ totalDoctors() }}</h1>
+                            <small>Total</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Posts</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">{{ totalPosts() }}</h1>
+                            <small>Total</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
+
                 <div class="col-lg-4">
                     <div class="widget-head-color-box navy-bg p-lg text-center">
                         <div class="m-b-md">
                             <h2 class="font-bold no-margins">
-                                Alex Smith
+                                {{ auth()->user()->name }}
                             </h2>
-                            <small>Founder of Groupeq</small>
+                            <small>Admin</small>
                         </div>
                         <img src="img/a4.jpg" class="rounded-circle circle-border m-b-md" alt="profile">
                         <div>
